@@ -3,4 +3,4 @@ project(mravec)
 
 set(CMAKE_CXX_STANDARD 14)
 
-add_executable(mravec main.cpp plocha/policko/Policko.h plocha/policko/Policko.cpp plocha/typPolicka/TypPolicka.h plocha/pole/Pole.h)
+add_executable(mravec main.cpp plocha/policko/Policko.h plocha/policko/Policko.cpp plocha/typPolicka/TypPolicka.h plocha/pole/Pole.h plocha/pole/Pole.cpp)
