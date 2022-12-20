@@ -7,8 +7,8 @@
 
 enum TypPolicka
 {
-    BIELE,
-    CIERNE
+    WHITE,
+    BLACK
 };
 
 #endif //MRAVEC_TYPPOLICKA_H

@@ -11,18 +11,20 @@
 class Policko
 {
 private:
-    TypPolicka typPolicka;
+    TypPolicka color;
 
 public:
-    explicit Policko(TypPolicka typPolicka);
+    explicit Policko(TypPolicka pColor);
 
-    TypPolicka getTypPolicka() const;
+    Policko() : color(BLACK){};
 
-    void setTypPolicka(TypPolicka pTypPolicka);
+    TypPolicka getColor() const;
 
-    void zmenTypPolicka();
+    void setColor(TypPolicka pColor);
 
-    std::string getZnak() const;
+    void changeColor();
+
+    std::string getStringRepresentation() const;
 };
 
 #endif //MRAVEC_POLICKO_H

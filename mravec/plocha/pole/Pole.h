@@ -6,9 +6,30 @@
 #define MRAVEC_POLE_H
 
 
+#include <random>
+#include "../policko/Policko.h"
+
 class Pole
 {
+private:
+    int width;
+    int height;
+    Policko** board;
+    std::mt19937 randomNumberGenerator;
+    std::uniform_int_distribution<int> uniformIntDistribution;
 
+public:
+    Pole(int pWidth, int pHeight);
+
+    void printBoard();
+
+    void generateRandomColors();
+
+    int getWidth() const;
+
+    int getHeight() const;
+
+    ~Pole();
 };
 
 

@@ -4,27 +4,27 @@
 
 #include "Policko.h"
 
-Policko::Policko(TypPolicka typPolicka) : typPolicka(typPolicka)
+Policko::Policko(TypPolicka pColor) : color(pColor)
 {}
 
-TypPolicka Policko::getTypPolicka() const
+TypPolicka Policko::getColor() const
 {
-    return typPolicka;
+    return color;
 }
 
-void Policko::setTypPolicka(TypPolicka pTypPolicka)
+void Policko::setColor(TypPolicka pColor)
 {
-    Policko::typPolicka = pTypPolicka;
+    Policko::color = pColor;
 }
 
-void Policko::zmenTypPolicka()
+void Policko::changeColor()
 {
-    this->typPolicka == BIELE ? this->typPolicka = CIERNE : this->typPolicka = BIELE;
+    this->color == WHITE ? this->color = BLACK : this->color = WHITE;
 }
 
-std::string Policko::getZnak() const
+std::string Policko::getStringRepresentation() const
 {
-    if (this->typPolicka == BIELE)
+    if (this->color == WHITE)
     {
         return "\033[47m \033[0m";
     } else
