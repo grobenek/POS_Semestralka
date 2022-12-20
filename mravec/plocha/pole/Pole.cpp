@@ -25,6 +25,7 @@ Pole::Pole(int pWidth, int pHeight) : width(pWidth), height(pHeight)
 
     // random generator
     this->uniformIntDistribution = std::uniform_int_distribution<int>(0, 100);
+    this->randomNumberGenerator.seed(std::chrono::system_clock::now().time_since_epoch().count());
 }
 
 Pole::~Pole()
