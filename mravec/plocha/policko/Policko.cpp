@@ -14,7 +14,7 @@ TypPolicka Policko::getColor() const
 
 void Policko::setColor(TypPolicka pColor)
 {
-    Policko::color = pColor;
+    this->color = pColor;
 }
 
 void Policko::changeColor()

@@ -7,26 +7,24 @@
 
 Pole::Pole(int pWidth, int pHeight) : width(pWidth), height(pHeight)
 {
-    if (pWidth && pHeight <= 0)
+    if (pWidth <= 0 || pHeight <= 0)
     {
         throw std::invalid_argument("Width or Height is 0!");
     }
 
-    this->width = pWidth;
-    this->height = pHeight;
-
     // pointer to pointer
     this->board = new Policko* [this->width];
 
-    for (int i = 0; i < pWidth; ++i)
+    for (int width = 0; width < pWidth; ++width)
     {
-        this->board[pWidth] = new Policko[pHeight];
+        this->board[width] = new Policko[pHeight];
     }
 
     // random generator
     this->uniformIntDistribution = std::uniform_int_distribution<int>(0, 100);
     this->randomNumberGenerator.seed(std::chrono::system_clock::now().time_since_epoch().count());
 }
+
 
 Pole::~Pole()
 {
