@@ -23,6 +23,8 @@ public:
 
     void printBoard();
 
+    void changeColorOfPolicko(int x, int y);
+
     void generateRandomColors();
 
     int getWidth() const;

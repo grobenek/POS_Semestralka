@@ -19,7 +19,7 @@ void Policko::setColor(TypPolicka pColor)
 
 void Policko::changeColor()
 {
-    this->color == WHITE ? this->color = BLACK : this->color = WHITE;
+    this->color == WHITE ? this->setColor(BLACK) : this->setColor(WHITE);
 }
 
 std::string Policko::getStringRepresentation() const

@@ -73,3 +73,22 @@ void Pole::generateRandomColors()
         }
     }
 }
+
+/**
+ * Changes color of Policko on given x and y
+ * @param x x of Policko (counting from 1)
+ * @param y y of Policko (counting from 1)
+ */
+void Pole::changeColorOfPolicko(int x, int y)
+{
+    if (x < 0 || y < 0)
+    {
+        throw std::invalid_argument("Width or Height is negative number!");
+    }
+    if (x > this->width || y > this->height)
+    {
+        throw std::invalid_argument("x or y is greater than width or height");
+    }
+
+    this->board[x - 1][y - 1].changeColor();
+}
