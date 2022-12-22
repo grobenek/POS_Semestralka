@@ -3,6 +3,7 @@
 //
 
 #include <iostream>
+#include <chrono>
 #include "Pole.h"
 
 Pole::Pole(int pWidth, int pHeight) : width(pWidth), height(pHeight)
@@ -91,4 +92,8 @@ void Pole::changeColorOfPolicko(int x, int y)
     }
 
     this->board[x - 1][y - 1].changeColor();
+}
+
+Policko Pole::getPolicko(int x, int y) const {
+    return this->board[x][y];
 }
