@@ -49,6 +49,7 @@ namespace mravec {
     }
 
     Smer Mravec::turnMravec(bool isLeftTurn) {
+        //TODO ked bude na kraji pola, nech sa porozmysla co sa stane
         if (isLeftTurn) {
             this->direction = static_cast<Smer>((this->direction + 3) % 4);
         } else {
