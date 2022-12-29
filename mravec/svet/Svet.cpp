@@ -26,6 +26,30 @@ void Svet::generatePositionsForAnts()
 
 void Svet::generateRandomColors()
 {
-    //TODO generacia vo svete nie v poli
     this->pole->generateRandomColors();
+}
+
+int Svet::getNumberOfAnts() const
+{
+    return this->ants.size();
+}
+
+int Svet::getWidth()
+{
+    return this->pole->getWidth();
+}
+
+int Svet::getHeight()
+{
+    return this->pole->getHeight();
+}
+
+std::string Svet::getStringRepresentationOfColors()
+{
+    return this->pole->getStringRepresentationOfColors();
+}
+
+mravec::Mravec* Svet::getAnt(int index)
+{
+    return this->ants.at(index);
 }

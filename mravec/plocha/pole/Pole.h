@@ -27,6 +27,8 @@ public:
 
     void generateRandomColors();
 
+    std::string getStringRepresentationOfColors() const;
+
     int getWidth() const;
 
     int getHeight() const;
