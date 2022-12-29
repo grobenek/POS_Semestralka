@@ -14,4 +14,4 @@ add_executable(mravec main.cpp
             mravec/inverzny/MravecInverzny.cpp
             mravec/inverzny/MravecInverzny.h
             mravec/smer/Smer.h
-        mravec/priamy/MravecPriamy.cpp mravec/priamy/MravecPriamy.h)
+        mravec/priamy/MravecPriamy.cpp mravec/priamy/MravecPriamy.h svet/Svet.h svet/Svet.cpp file/upload/FileUpload.h file/upload/FileUpload.cpp file/download/FileDownload.h file/download/FileDownload.cpp)
