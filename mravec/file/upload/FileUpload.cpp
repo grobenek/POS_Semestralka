@@ -11,12 +11,19 @@ FileUpload::FileUpload(const char* fileName)
 
 void FileUpload::saveSvetIntoFile(Svet& svet)
 {
-    // pocet mravcov
-    // x a y kazdeho mravca
-    // vyska a sirka pola
-    // WBWBWBBBWBWB podla farby kazdeho pola
+    int numberOfAnts = svet.getNumberOfAnts();
+    int width = svet.getWidth();
+    int height = svet.getHeight();
+    std::string colors = svet.getStringRepresentationOfColors();
 
-    //TODO dorobit
+    this->file << numberOfAnts << std::endl;
+    for (int i = 0; i < numberOfAnts; ++i)
+    {
+        this->file << svet.getAnt(i)->getXPos() << " " << svet.getAnt(i)->getYPos() << std::endl;
+    }
+
+    this->file << width << " " << height << std::endl;
+    this->file << colors;
 }
 
 FileUpload::~FileUpload()
