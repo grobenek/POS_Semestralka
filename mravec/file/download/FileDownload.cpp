@@ -8,9 +8,6 @@
 #include "../../mravec/priamy/MravecPriamy.h"
 #include "../../mravec/inverzny/MravecInverzny.h"
 
-FileDownload::FileDownload()
-{}
-
 FileDownload::~FileDownload()
 {
     if (this->file.is_open())

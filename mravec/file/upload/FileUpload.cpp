@@ -5,7 +5,7 @@
 #include "FileUpload.h"
 #include "../../mravec/inverzny/MravecInverzny.h"
 
-FileUpload::FileUpload(const char* fileName)
+FileUpload::FileUpload(const std::string& fileName)
 {
     this->file = std::ofstream(fileName);
 }
