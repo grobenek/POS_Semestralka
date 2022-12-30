@@ -15,4 +15,7 @@ namespace mravec {
         policko.changeColor();
         this->shiftInDirection();
     }
+
+    MravecPriamy::MravecPriamy(int xPos, int yPos, Smer direction) : Mravec(xPos, yPos, direction)
+    {}
 } // mravec
