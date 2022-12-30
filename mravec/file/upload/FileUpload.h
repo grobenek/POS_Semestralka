@@ -16,7 +16,7 @@ private:
     std::ofstream file;
 
 public:
-    explicit FileUpload(const char* fileName);
+    explicit FileUpload(const std::string& fileName);
 
     virtual ~FileUpload();
 

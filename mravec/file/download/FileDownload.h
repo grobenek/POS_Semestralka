@@ -15,9 +15,9 @@ private:
     std::ifstream file;
 
 public:
-    FileDownload();
+    FileDownload() = default;
 
-    virtual ~FileDownload();
+    ~FileDownload();
 
     Svet* createSvetFromFile(const std::string& fileName);
 };
