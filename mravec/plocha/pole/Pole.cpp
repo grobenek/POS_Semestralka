@@ -4,6 +4,7 @@
 
 #include <iostream>
 #include <chrono>
+#include <sstream>
 #include "Pole.h"
 
 Pole::Pole(int pWidth, int pHeight) : width(pWidth), height(pHeight)
@@ -77,8 +78,8 @@ void Pole::generateRandomColors()
 
 /**
  * Changes color of Policko on given x and y
- * @param x x of Policko (counting from 1)
- * @param y y of Policko (counting from 1)
+ * @param x x of Policko
+ * @param y y of Policko
  */
 void Pole::changeColorOfPolicko(int x, int y)
 {
@@ -91,9 +92,29 @@ void Pole::changeColorOfPolicko(int x, int y)
         throw std::invalid_argument("x or y is greater than width or height");
     }
 
-    this->board[x - 1][y - 1].changeColor();
+    this->board[x][y].changeColor();
 }
 
 Policko Pole::getPolicko(int x, int y) const {
     return this->board[x][y];
+}
+
+std::string Pole::getStringRepresentationOfColors() const
+{
+    std::stringstream stringstream;
+
+    for (int i = 0; i < this->width; ++i)
+    {
+        for (int j = 0; j < this->height; ++j)
+        {
+            if (this->board[i][j].getColor() == WHITE)
+            {
+                stringstream << "W";
+            } else
+            {
+                stringstream << "B";
+            }
+        }
+    }
+    return stringstream.str();
 }

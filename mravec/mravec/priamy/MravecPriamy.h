@@ -11,6 +11,9 @@ namespace mravec {
 
     class MravecPriamy: public Mravec {
     public:
+
+        MravecPriamy(int xPos, int yPos, Smer direction);
+
         void mravecLogic(Policko &policko) override;
 
         ~MravecPriamy() = default;

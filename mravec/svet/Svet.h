@@ -34,8 +34,17 @@ public:
 
     void generateRandomColors();
 
+    int getNumberOfAnts() const;
+
+    int getWidth();
+
+    mravec::Mravec* getAnt(int index);
+
     void changePositionOfAnt(mravec::Mravec& ant, int x, int y);
 
+    int getHeight();
+
+    std::string getStringRepresentationOfColors();
 };
 
 

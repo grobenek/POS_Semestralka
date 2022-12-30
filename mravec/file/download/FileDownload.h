@@ -6,9 +6,20 @@
 #define MRAVEC_FILEDOWNLOAD_H
 
 
+#include <fstream>
+#include "../../svet/Svet.h"
+
 class FileDownload
 {
+private:
+    std::ifstream file;
 
+public:
+    FileDownload();
+
+    virtual ~FileDownload();
+
+    Svet* createSvetFromFile(const std::string& fileName);
 };
 
 
