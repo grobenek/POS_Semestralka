@@ -4,7 +4,7 @@
 
 #include "Policko.h"
 
-Policko::Policko(TypPolicka pColor) : color(pColor)
+Policko::Policko(TypPolicka pColor) : color(pColor), ants()
 {}
 
 TypPolicka Policko::getColor() const
