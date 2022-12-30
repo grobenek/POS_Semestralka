@@ -1,8 +1,8 @@
 #ifndef MRAVEC_MRAVEC_H
 #define MRAVEC_MRAVEC_H
 
-#include "../plocha/pole/Pole.h"
 #include "smer/Smer.h"
+#include "../plocha/policko/Policko.h"
 
 namespace mravec {
 
@@ -33,7 +33,6 @@ namespace mravec {
 
         ~Mravec() = default;
 
-    protected:
         virtual void mravecLogic(Policko& policko) = 0;
     };
 

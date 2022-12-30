@@ -6,17 +6,22 @@
 #define MRAVEC_POLICKO_H
 
 #include <string>
+#include <vector>
 #include "../typPolicka/TypPolicka.h"
+namespace mravec {
+    class Mravec;
+}
 
 class Policko
 {
 private:
     TypPolicka color;
+    std::vector<mravec::Mravec*> ants;
 
 public:
     explicit Policko(TypPolicka pColor);
 
-    Policko() : color(BLACK){};
+    Policko() : color(BLACK), ants(){};
 
     TypPolicka getColor() const;
 
