@@ -9,7 +9,7 @@ namespace mravec {
 
         MravecInverzny(int xPos, int yPos, Smer direction);
 
-        void mravecLogic(Policko& policko) override;
+        void mravecLogic(Policko& policko, int maxX, int maxY) override;
 
         ~MravecInverzny() = default;
     };

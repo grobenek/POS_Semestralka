@@ -1,7 +1,7 @@
 #include "MravecInverzny.h"
 
 namespace mravec {
-    void MravecInverzny::mravecLogic(Policko& policko) {
+    void MravecInverzny::mravecLogic(Policko& policko, int maxX, int maxY) {
         if (policko.getColor() == TypPolicka::WHITE) {
             this->turnMravec(true);
         } else {
@@ -9,7 +9,7 @@ namespace mravec {
         }
 
         policko.changeColor();
-        this->shiftInDirection();
+        this->shiftInDirection(maxX, maxY);
     }
 
     MravecInverzny::MravecInverzny(int xPos, int yPos, Smer direction) : Mravec(xPos, yPos, direction)
