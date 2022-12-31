@@ -35,6 +35,7 @@ namespace mravec {
 
         virtual void mravecLogic(Policko& policko, int maxX, int maxY) = 0;
 
+
     private:
         bool checkXPosition(int maxX);
 
