@@ -5,7 +5,7 @@
 #include "MravecPriamy.h"
 
 namespace mravec {
-    void MravecPriamy::mravecLogic(Policko &policko) {
+    void MravecPriamy::mravecLogic(Policko &policko, int maxX, int maxY) {
         if (policko.getColor() == TypPolicka::WHITE) {
             this->turnMravec(false);
         } else {
@@ -13,7 +13,7 @@ namespace mravec {
         }
 
         policko.changeColor();
-        this->shiftInDirection();
+        this->shiftInDirection(maxX, maxY);
     }
 
     MravecPriamy::MravecPriamy(int xPos, int yPos, Smer direction) : Mravec(xPos, yPos, direction)

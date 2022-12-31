@@ -27,13 +27,21 @@ namespace mravec {
 
         void setDirection(Smer direction);
 
-        void shiftInDirection();
+        void shiftInDirection(int maxX, int maxY);
 
         Smer turnMravec(bool isLeftTurn);
 
         ~Mravec() = default;
+        
+        virtual void mravecLogic(Policko& policko, int maxX, int maxY) = 0;
 
-        virtual void mravecLogic(Policko& policko) = 0;
+        
+    private:
+        bool checkXPosition(int maxX);
+
+        bool checkYPosition(int maxY);
+
+        void turnOppositeDirection();
     };
 
 } // mravec
