@@ -60,3 +60,13 @@ Policko::~Policko()
 
     this->ants.clear();
 }
+
+int Policko::getNumberOfAnts()
+{
+    return this->ants.size();
+}
+
+mravec::Mravec* Policko::getAnt(int index)
+{
+    return this->ants[index];
+}

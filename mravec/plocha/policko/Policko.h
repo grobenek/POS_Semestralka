@@ -34,6 +34,10 @@ public:
     void addAnt(mravec::Mravec* ant);
 
     std::string getStringRepresentation() const;
+
+    int getNumberOfAnts();
+
+    mravec::Mravec* getAnt(int index);
 };
 
 #endif //MRAVEC_POLICKO_H
