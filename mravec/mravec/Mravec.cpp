@@ -73,12 +73,24 @@ namespace mravec {
 
     bool Mravec::checkXPosition(int maxX) {
         // TODO ked tak to zmenit
-        return (this->xPos + 1 <= maxX && this->xPos + 1 >= 0) || (this->xPos - 1 <= maxX && this->xPos - 1 >= 0);
+        if (this->direction == EAST) {
+            return this->xPos + 1 <= maxX;
+        } else if (this->direction == WEST) {
+            return this->xPos - 1 >= 0;
+        }
+
+        return false;
     }
 
     bool Mravec::checkYPosition(int maxY) {
         // TODO ked tak to zmenit
-        return (this->yPos + 1 <= maxY && this->yPos + 1 >= 0) || (this->yPos - 1 <= maxY && this->yPos - 1 >= 0);
+        if (this->direction == NORTH) {
+            return this->yPos - 1 >= 0;
+        } else if (this->direction == SOUTH) {
+            return this->yPos + 1 <= maxY;
+        }
+
+        return false;
     }
 
     void Mravec::turnOppositeDirection() {
