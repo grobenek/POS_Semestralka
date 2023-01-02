@@ -2,6 +2,7 @@
 // Created by Peter Szathmáry on 27/12/2022.
 //
 
+#include <iostream>
 #include "FileUpload.h"
 #include "../../mravec/inverzny/MravecInverzny.h"
 
@@ -12,7 +13,8 @@ FileUpload::FileUpload(const std::string& fileName)
 
 void FileUpload::saveSvetIntoFile(Svet& svet)
 {
-    int numberOfAnts = svet.getNumberOfAnts();
+    auto* antsInSvet = svet.getCurrentAnts();
+    int numberOfAnts = antsInSvet->size();
     int width = svet.getWidth();
     int height = svet.getHeight();
     std::string colors = svet.getStringRepresentationOfColors();
@@ -22,7 +24,7 @@ void FileUpload::saveSvetIntoFile(Svet& svet)
     // type of ant
     for (int i = 0; i < numberOfAnts; ++i)
     {
-        auto* ant = svet.getAnt(i);
+        auto* ant = antsInSvet->at(i);
         std::string stringDirection;
 
         switch (ant->getDirection())
@@ -54,11 +56,18 @@ void FileUpload::saveSvetIntoFile(Svet& svet)
 
     for (int i = 0; i < numberOfAnts; ++i)
     {
-        this->file << svet.getAnt(i)->getXPos() << " " << svet.getAnt(i)->getYPos() << std::endl;
+        this->file << antsInSvet->at(i)->getXPos() << " " << antsInSvet->at(i)->getYPos() << std::endl;
     }
 
     this->file << width << " " << height << std::endl;
-    this->file << colors;
+    this->file << colors << std::endl;
+
+    for (auto* ant: *antsInSvet)
+    {
+        delete ant;
+    }
+    antsInSvet->clear();
+    delete antsInSvet;
 }
 
 FileUpload::~FileUpload()
