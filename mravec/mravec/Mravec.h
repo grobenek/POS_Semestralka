@@ -31,9 +31,11 @@ namespace mravec {
 
         Smer turnMravec(bool isLeftTurn);
 
-        ~Mravec() = default;
+        virtual ~Mravec() = default;
 
         virtual void mravecLogic(Policko& policko, int maxX, int maxY) = 0;
+
+        virtual Mravec* makeCopy() = 0;
 
 
     private:

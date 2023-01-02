@@ -14,4 +14,9 @@ namespace mravec {
 
     MravecInverzny::MravecInverzny(int xPos, int yPos, Smer direction) : Mravec(xPos, yPos, direction)
     {}
+
+    Mravec* MravecInverzny::makeCopy()
+    {
+        return new MravecInverzny(this->getXPos(), this->getYPos(), this->getDirection());
+    }
 } // mravec
