@@ -50,3 +50,13 @@ void Policko::addAnt(mravec::Mravec* ant)
         this->ants.push_back(ant);
     }
 }
+
+Policko::~Policko()
+{
+    for (auto* ant: this->ants)
+    {
+        delete ant;
+    }
+
+    this->ants.clear();
+}

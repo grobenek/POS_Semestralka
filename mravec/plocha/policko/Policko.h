@@ -23,6 +23,8 @@ public:
 
     Policko() : color(BLACK), ants(){};
 
+    virtual ~Policko();
+
     TypPolicka getColor() const;
 
     void setColor(TypPolicka pColor);
