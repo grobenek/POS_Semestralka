@@ -16,7 +16,12 @@ private:
 
 public:
     Svet(Pole* pole, const std::vector<mravec::Mravec*>& ants) : pole(pole), ants(ants)
-    {}
+    {
+        for (auto ant : this->ants)
+        {
+            this->pole->getPolicko(ant->getXPos(), ant->getYPos())->addAnt(ant);
+        }
+    }
 
     ~Svet()
     {
