@@ -29,6 +29,8 @@ public:
 
     void changeColor();
 
+    void addAnt(mravec::Mravec* ant);
+
     std::string getStringRepresentation() const;
 };
 
