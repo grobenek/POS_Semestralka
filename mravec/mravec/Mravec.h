@@ -8,20 +8,25 @@ namespace mravec {
 
     class Mravec {
     private:
-        int xPos;
-        int yPos;
+        int row;
+        int column;
         Smer direction;
+        bool movedThisRound;
 
     public:
         Mravec(int xPos, int yPos, Smer direction);
 
-        int getXPos() const;
+        int getRowPos() const;
 
         void setXPos(int xPos);
 
-        int getYPos() const;
+        int getColumnPos() const;
 
         void setYPos(int yPos);
+
+        bool isMovedThisRound() const;
+
+        void setMovedThisRound(bool movedThisRound);
 
         Smer getDirection() const;
 

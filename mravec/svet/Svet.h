@@ -19,7 +19,7 @@ public:
         for (auto ant : ants)
         {
             auto* copy = ant->makeCopy();
-            this->pole->getPolicko(ant->getXPos(), ant->getYPos())->addAnt(copy);
+            this->pole->getPolicko(ant->getRowPos(), ant->getColumnPos())->addAnt(copy);
         }
 
         for (auto ant : ants)
@@ -49,7 +49,11 @@ public:
 
     std::vector<mravec::Mravec*>* getCurrentAnts();
 
-    void changePositionOfAnt(mravec::Mravec& ant, int x, int y);
+    void shiftAllAnts();
+
+    void killAllExcessiveAnts();
+
+    void changePositionOfAnt(mravec::Mravec* ant, Policko* currentPolicko, Policko* newPolicko);
 
     int getHeight();
 

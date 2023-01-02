@@ -2,25 +2,26 @@
 
 namespace mravec {
     Mravec::Mravec(int xPos, int yPos, Smer direction) {
-        this->xPos = xPos;
-        this->yPos = yPos;
+        this->row = xPos;
+        this->column = yPos;
         this->direction = direction;
+        this->movedThisRound = false;
     }
 
-    int Mravec::getXPos() const {
-        return xPos;
+    int Mravec::getRowPos() const {
+        return row;
     }
 
     void Mravec::setXPos(int xPos) {
-        Mravec::xPos = xPos;
+        Mravec::row = xPos;
     }
 
-    int Mravec::getYPos() const {
-        return yPos;
+    int Mravec::getColumnPos() const {
+        return column;
     }
 
     void Mravec::setYPos(int yPos) {
-        Mravec::yPos = yPos;
+        Mravec::column = yPos;
     }
 
     Smer Mravec::getDirection() const {
@@ -31,32 +32,42 @@ namespace mravec {
         Mravec::direction = direction;
     }
 
+    bool Mravec::isMovedThisRound() const {
+        return movedThisRound;
+    }
+
+    void Mravec::setMovedThisRound(bool movedThisRound) {
+        Mravec::movedThisRound = movedThisRound;
+    }
+
     void Mravec::shiftInDirection(int maxX, int maxY) {
         // TODO rekurzia, ked bude cas vymysliet inak (mala by sa opakovat len raz ked tak)
-        if (this->checkXPosition(maxX)) {
-            this->turnOppositeDirection();
-            this->shiftInDirection(maxX, maxY);
-            return;
-        }
-
-        if (this->checkYPosition(maxY)) {
-            this->turnOppositeDirection();
-            this->shiftInDirection(maxX, maxY);
-            return;
+        if (this->direction == EAST || this->direction == WEST) {
+            if (this->checkXPosition(maxX)) {
+                this->turnOppositeDirection();
+                this->shiftInDirection(maxX, maxY);
+                return;
+            }
+        } else {
+            if (this->checkYPosition(maxY)) {
+                this->turnOppositeDirection();
+                this->shiftInDirection(maxX, maxY);
+                return;
+            }
         }
 
         switch(this->getDirection()) {
             case NORTH:
-                this->setYPos(-1);
+                this->row--;
                 break;
             case SOUTH:
-                this->setYPos(1);
+                this->row++;
                 break;
             case EAST:
-                this->setXPos(1);
+                this->column++;
                 break;
             case WEST:
-                this->setXPos(-1);
+                this->column--;
                 break;
         }
     }
@@ -73,24 +84,12 @@ namespace mravec {
 
     bool Mravec::checkXPosition(int maxX) {
         // TODO ked tak to zmenit
-        if (this->direction == EAST) {
-            return this->xPos + 1 <= maxX;
-        } else if (this->direction == WEST) {
-            return this->xPos - 1 >= 0;
-        }
-
-        return false;
+        return this->row - 1 < 0 || this->row + 1 > maxX;
     }
 
     bool Mravec::checkYPosition(int maxY) {
         // TODO ked tak to zmenit
-        if (this->direction == NORTH) {
-            return this->yPos - 1 >= 0;
-        } else if (this->direction == SOUTH) {
-            return this->yPos + 1 <= maxY;
-        }
-
-        return false;
+        return this->column - 1 < 0 || this->column + 1 > maxY;
     }
 
     void Mravec::turnOppositeDirection() {

@@ -77,3 +77,51 @@ std::vector<mravec::Mravec*>* Svet::getCurrentAnts()
     }
     return antsToReturn;
 }
+
+void Svet::shiftAllAnts() {
+    for (int i = 0; i < this->pole->getWidth(); ++i)
+    {
+        for (int j = 0; j < this->pole->getHeight(); ++j)
+        {
+            if (this->pole->getPolicko(i, j)->getNumberOfAnts() > 0) {
+                Policko* currentPolicko = this->pole->getPolicko(i, j);
+                std::vector<mravec::Mravec*> currentAnts = currentPolicko->getAnts();
+
+                for (mravec::Mravec* currentAnt : currentAnts) {
+                    if (!currentAnt->isMovedThisRound()) {
+                        currentAnt->mravecLogic(*currentPolicko, this->pole->getWidth(), this->pole->getHeight());
+
+                        Policko* shiftedPolicko = this->pole->getPolicko(currentAnt->getRowPos(), currentAnt->getColumnPos());
+                        this->changePositionOfAnt(currentAnt, currentPolicko, shiftedPolicko);
+                    }
+                }
+            }
+        }
+    }
+}
+
+void Svet::changePositionOfAnt(mravec::Mravec *ant, Policko* currentPolicko, Policko* newPolicko) {
+    if (currentPolicko == nullptr || newPolicko == nullptr) {
+        return;
+    }
+
+    if (ant != nullptr) {
+        newPolicko->addAnt(ant);
+        currentPolicko->removeAnt(0);
+    }
+}
+
+void Svet::killAllExcessiveAnts() {
+    for (int i = 0; i < this->pole->getWidth(); ++i)
+    {
+        for (int j = 0; j < this->pole->getHeight(); ++j)
+        {
+            Policko* policko = this->pole->getPolicko(i, j);
+            policko->killExcessiveAnts();
+
+            if (policko->getNumberOfAnts() > 0) {
+                policko->getAnt(0)->setMovedThisRound(false);
+            }
+        }
+    }
+}

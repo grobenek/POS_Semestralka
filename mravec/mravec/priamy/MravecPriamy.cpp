@@ -6,6 +6,10 @@
 
 namespace mravec {
     void MravecPriamy::mravecLogic(Policko &policko, int maxX, int maxY) {
+        if (this->isMovedThisRound()) {
+            return;
+        }
+
         if (policko.getColor() == TypPolicka::WHITE) {
             this->turnMravec(false);
         } else {
@@ -14,6 +18,7 @@ namespace mravec {
 
         policko.changeColor();
         this->shiftInDirection(maxX, maxY);
+        this->setMovedThisRound(true);
     }
 
     MravecPriamy::MravecPriamy(int xPos, int yPos, Smer direction) : Mravec(xPos, yPos, direction)
@@ -21,6 +26,6 @@ namespace mravec {
 
     Mravec* MravecPriamy::makeCopy()
     {
-        return new MravecPriamy(this->getXPos(), this->getYPos(), this->getDirection());
+        return new MravecPriamy(this->getRowPos(), this->getColumnPos(), this->getDirection());
     }
 } // mravec
