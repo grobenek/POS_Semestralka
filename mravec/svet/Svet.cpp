@@ -31,7 +31,15 @@ void Svet::generateRandomColors()
 
 int Svet::getNumberOfAnts() const
 {
-    return this->ants.size();
+    int numberOfAnts = 0;
+    for (int i = 0; i < this->pole->getWidth(); ++i)
+    {
+        for (int j = 0; j < this->pole->getHeight(); ++j)
+        {
+            numberOfAnts += this->pole->getPolicko(i, j)->getNumberOfAnts();
+        }
+    }
+    return numberOfAnts;
 }
 
 int Svet::getWidth()
@@ -49,7 +57,23 @@ std::string Svet::getStringRepresentationOfColors()
     return this->pole->getStringRepresentationOfColors();
 }
 
-mravec::Mravec* Svet::getAnt(int index)
+std::vector<mravec::Mravec*>* Svet::getCurrentAnts()
 {
-    return this->ants.at(index);
+    auto* antsToReturn = new std::vector<mravec::Mravec*>();
+
+    for (int i = 0; i < this->pole->getWidth(); ++i)
+    {
+        for (int j = 0; j < this->pole->getHeight(); ++j)
+        {
+            int numberOfAnts = this->pole->getPolicko(i, j)->getNumberOfAnts();
+            if (numberOfAnts > 0)
+            {
+                for (int k = 0; k < numberOfAnts; ++k)
+                {
+                    antsToReturn->push_back(this->pole->getPolicko(i, j)->getAnt(k)->makeCopy());
+                }
+            }
+        }
+    }
+    return antsToReturn;
 }

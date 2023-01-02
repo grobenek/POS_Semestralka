@@ -12,26 +12,24 @@ class Svet
 {
 private:
     Pole* pole;
-    std::vector<mravec::Mravec*> ants;
 
 public:
-    Svet(Pole* pole, const std::vector<mravec::Mravec*>& ants) : pole(pole), ants(ants)
+    Svet(Pole* pole, const std::vector<mravec::Mravec*>& ants) : pole(pole)
     {
-        for (auto ant : this->ants)
+        for (auto ant : ants)
         {
             auto* copy = ant->makeCopy();
             this->pole->getPolicko(ant->getXPos(), ant->getYPos())->addAnt(copy);
+        }
+
+        for (auto ant : ants)
+        {
+            delete ant;
         }
     }
 
     ~Svet()
     {
-        for (auto ant : this->ants)
-        {
-            delete ant;
-        }
-
-        this->ants.clear();
         delete this->pole;
     }
 
@@ -49,7 +47,7 @@ public:
 
     int getWidth();
 
-    mravec::Mravec* getAnt(int index);
+    std::vector<mravec::Mravec*>* getCurrentAnts();
 
     void changePositionOfAnt(mravec::Mravec& ant, int x, int y);
 
