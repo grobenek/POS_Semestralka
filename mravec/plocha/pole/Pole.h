@@ -33,7 +33,7 @@ public:
 
     int getHeight() const;
 
-    Policko getPolicko(int x, int y) const;
+    Policko* getPolicko(int x, int y) const;
 
     ~Pole();
 };

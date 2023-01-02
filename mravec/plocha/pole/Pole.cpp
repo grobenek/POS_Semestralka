@@ -95,8 +95,8 @@ void Pole::changeColorOfPolicko(int x, int y)
     this->board[x][y].changeColor();
 }
 
-Policko Pole::getPolicko(int x, int y) const {
-    return this->board[x][y];
+Policko* Pole::getPolicko(int x, int y) const {
+    return &this->board[x][y];
 }
 
 std::string Pole::getStringRepresentationOfColors() const
