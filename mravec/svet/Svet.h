@@ -19,14 +19,20 @@ public:
     {
         for (auto ant : this->ants)
         {
-            this->pole->getPolicko(ant->getXPos(), ant->getYPos())->addAnt(ant);
+            auto* copy = ant->makeCopy();
+            this->pole->getPolicko(ant->getXPos(), ant->getYPos())->addAnt(copy);
         }
     }
 
     ~Svet()
     {
-        delete this->pole;
+        for (auto ant : this->ants)
+        {
+            delete ant;
+        }
+
         this->ants.clear();
+        delete this->pole;
     }
 
     void printSvet();
