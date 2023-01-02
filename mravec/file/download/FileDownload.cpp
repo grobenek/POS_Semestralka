@@ -70,8 +70,8 @@ Svet* FileDownload::createSvetFromFile(const std::string& fileName)
     {
         std::getline(this->file, line);
 
-        int x = 2;
-        int y = 2;
+        int x = -1;
+        int y = -1;
 
         ss.clear();
         ss.str(line);

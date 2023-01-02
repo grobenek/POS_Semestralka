@@ -18,4 +18,9 @@ namespace mravec {
 
     MravecPriamy::MravecPriamy(int xPos, int yPos, Smer direction) : Mravec(xPos, yPos, direction)
     {}
+
+    Mravec* MravecPriamy::makeCopy()
+    {
+        return new MravecPriamy(this->getXPos(), this->getYPos(), this->getDirection());
+    }
 } // mravec

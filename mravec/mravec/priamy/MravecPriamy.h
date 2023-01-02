@@ -16,6 +16,8 @@ namespace mravec {
 
         void mravecLogic(Policko &policko, int maxX, int maxY) override;
 
+        Mravec* makeCopy() override;
+
         ~MravecPriamy() = default;
     };
 
