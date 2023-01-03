@@ -70,3 +70,17 @@ mravec::Mravec* Policko::getAnt(int index)
 {
     return this->ants[index];
 }
+
+void Policko::killExcessiveAnts() {
+    if (this->ants.size() > 1) {
+        this->ants.erase(this->ants.begin() + 1, this->ants.end());
+    }
+}
+
+void Policko::removeAnt(int index) {
+    this->ants.erase(this->ants.begin());
+}
+
+const std::vector<mravec::Mravec *> &Policko::getAnts() const {
+    return ants;
+}

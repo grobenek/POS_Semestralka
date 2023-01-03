@@ -29,15 +29,21 @@ public:
 
     void setColor(TypPolicka pColor);
 
+    const std::vector<mravec::Mravec *> &getAnts() const;
+
     void changeColor();
 
     void addAnt(mravec::Mravec* ant);
+
+    void removeAnt(int index);
 
     std::string getStringRepresentation() const;
 
     int getNumberOfAnts();
 
     mravec::Mravec* getAnt(int index);
+
+    void killExcessiveAnts();
 };
 
 #endif //MRAVEC_POLICKO_H

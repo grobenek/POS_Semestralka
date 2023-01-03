@@ -56,7 +56,7 @@ void FileUpload::saveSvetIntoFile(Svet& svet)
 
     for (int i = 0; i < numberOfAnts; ++i)
     {
-        this->file << antsInSvet->at(i)->getXPos() << " " << antsInSvet->at(i)->getYPos() << std::endl;
+        this->file << antsInSvet->at(i)->getRowPos() << " " << antsInSvet->at(i)->getColumnPos() << std::endl;
     }
 
     this->file << width << " " << height << std::endl;
