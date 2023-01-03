@@ -40,20 +40,16 @@ namespace mravec {
         Mravec::movedThisRound = movedThisRound;
     }
 
-    void Mravec::shiftInDirection(int maxX, int maxY) {
+    void Mravec::shiftInDirection(int maxRow, int maxColumn) {
         // TODO rekurzia, ked bude cas vymysliet inak (mala by sa opakovat len raz ked tak)
-        if (this->direction == EAST || this->direction == WEST) {
-            if (this->checkXPosition(maxX)) {
-                this->turnOppositeDirection();
-                this->shiftInDirection(maxX, maxY);
-                return;
-            }
-        } else {
-            if (this->checkYPosition(maxY)) {
-                this->turnOppositeDirection();
-                this->shiftInDirection(maxX, maxY);
-                return;
-            }
+        if (this->checkRowPosition(maxRow)) {
+            this->turnOppositeDirection();
+            this->shiftInDirection(maxRow, maxColumn);
+            return;
+        } else if (this->checkColumnPosition(maxColumn)) {
+            this->turnOppositeDirection();
+            this->shiftInDirection(maxRow, maxColumn);
+            return;
         }
 
         switch(this->getDirection()) {
@@ -82,14 +78,24 @@ namespace mravec {
         return this->direction;
     }
 
-    bool Mravec::checkXPosition(int maxX) {
-        // TODO ked tak to zmenit
-        return this->row - 1 < 0 || this->row + 1 > maxX;
+    bool Mravec::checkRowPosition(int maxRow) {
+        if (this->direction == SOUTH) {
+            return this->row + 1 >= maxRow;
+        } else if (this->direction == NORTH) {
+            return this->row - 1 < 0;
+        }
+
+        return false;
     }
 
-    bool Mravec::checkYPosition(int maxY) {
-        // TODO ked tak to zmenit
-        return this->column - 1 < 0 || this->column + 1 > maxY;
+    bool Mravec::checkColumnPosition(int maxColumn) {
+        if (this->direction == EAST) {
+            return this->column + 1 >= maxColumn;
+        } else if (this->direction == WEST) {
+            return this->column - 1 < 0;
+        }
+
+        return false;
     }
 
     void Mravec::turnOppositeDirection() {
