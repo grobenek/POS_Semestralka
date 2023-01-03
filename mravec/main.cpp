@@ -35,26 +35,28 @@ int main()
 
     svet->generateRandomColors();
     svet->printSvet();
-    std::cout << std::endl;
-    for (int i = 0; i < 10; ++i) {
-        svet->shiftAllAnts();
-        printf("Before killing: %d\n", svet->getNumberOfAnts());
-        svet->killAllExcessiveAnts();
-        printf("After killing: %d\n", svet->getNumberOfAnts());
-        svet->printSvet();
-        std::cout << std::endl;
-    }
+//    std::cout << std::endl;
+//    for (int i = 0; i < 10; ++i) {
+//        svet->shiftAllAnts();
+//        printf("Before killing: %d\n", svet->getNumberOfAnts());
+//        svet->killAllExcessiveAnts();
+//        printf("After killing: %d\n", svet->getNumberOfAnts());
+//        svet->printSvet();
+//        std::cout << std::endl;
+//    }
+//
+//    FileUpload fileUpload("skuska.txt");
+//    fileUpload.saveSvetIntoFile(*svet);
+//
+//    std::cout << std::endl << std::endl;
+//
+//    FileDownload fileDownload;
+//    auto* downloadedSvet = fileDownload.createSvetFromFile("skuska.txt");
+//
+//    downloadedSvet->printSvet();
 
-    FileUpload fileUpload("skuska.txt");
-    fileUpload.saveSvetIntoFile(*svet);
-
-    std::cout << std::endl << std::endl;
-
-    FileDownload fileDownload;
-    auto* downloadedSvet = fileDownload.createSvetFromFile("skuska.txt");
-
-    downloadedSvet->printSvet();
-
+    Simulacia simulation(10, svet);
+    simulation.simulation();
     delete svet;
 
     system("leaks mravec");
