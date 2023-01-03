@@ -19,7 +19,7 @@ private:
     int numberOfSteps;
 
 public:
-    explicit Simulacia(int numberOfSteps);
+    explicit Simulacia(int numberOfSteps, Svet* svet);
 
     void simulationRun();
     void simulationControl();

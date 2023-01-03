@@ -125,3 +125,9 @@ void Svet::killAllExcessiveAnts() {
         }
     }
 }
+
+void Svet::tick() {
+    this->shiftAllAnts();
+    this->killAllExcessiveAnts();
+    this->printSvet();
+}

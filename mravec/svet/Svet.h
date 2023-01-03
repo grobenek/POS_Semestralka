@@ -58,6 +58,8 @@ public:
     int getHeight();
 
     std::string getStringRepresentationOfColors();
+
+    void tick();
 };
 
 

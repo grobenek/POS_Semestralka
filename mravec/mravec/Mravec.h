@@ -32,7 +32,7 @@ namespace mravec {
 
         void setDirection(Smer direction);
 
-        void shiftInDirection(int maxX, int maxY);
+        void shiftInDirection(int maxRow, int maxColumn);
 
         Smer turnMravec(bool isLeftTurn);
 
@@ -44,9 +44,9 @@ namespace mravec {
 
 
     private:
-        bool checkXPosition(int maxX);
+        bool checkRowPosition(int maxRow);
 
-        bool checkYPosition(int maxY);
+        bool checkColumnPosition(int maxColumn);
 
         void turnOppositeDirection();
     };

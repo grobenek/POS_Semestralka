@@ -15,15 +15,13 @@ void Simulacia::simulationRun() {
     for (int i = 0; i < this->numberOfSteps; ++i) {
         if (this->isStopped) {
             // [this] - object is used in lambda function
-            std::cout << "Locked" << std::endl;
             this->cond_variable_control.wait(lock, [this]{ return !isStopped; });
         }
         this->mutex.unlock();
 
-        std::cout << "Running" << std::endl;
-        // posun mravce
-        // vypis plochu
-        // wait 1sec
+        this->mutex.lock();
+        this->svet->tick();
+        this->mutex.unlock();
         std::this_thread::sleep_for(std::chrono::seconds(1));
     }
 }
@@ -55,4 +53,4 @@ void Simulacia::simulation() {
     simulationControlThread.join();
 }
 
-Simulacia::Simulacia(int numberOfSteps) : numberOfSteps(numberOfSteps), isStopped(false) {}
+Simulacia::Simulacia(int numberOfSteps, Svet* svet) : numberOfSteps(numberOfSteps), svet(svet), isStopped(false) {}

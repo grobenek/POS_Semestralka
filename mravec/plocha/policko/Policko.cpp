@@ -73,6 +73,10 @@ mravec::Mravec* Policko::getAnt(int index)
 
 void Policko::killExcessiveAnts() {
     if (this->ants.size() > 1) {
+        for (int i = 1; i < this->ants.size(); ++i) {
+            delete this->ants[i];
+        }
+
         this->ants.erase(this->ants.begin() + 1, this->ants.end());
     }
 }
