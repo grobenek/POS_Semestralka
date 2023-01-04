@@ -118,3 +118,14 @@ std::string Pole::getStringRepresentationOfColors() const
     }
     return stringstream.str();
 }
+
+std::pair<int, int> Pole::generatePositionForAnt()
+{
+    auto uniformDistributionWidth = std::uniform_int_distribution<int>(0, this->width - 1);
+    auto uniformDistributionHeight = std::uniform_int_distribution<int>(0, this->height - 1);
+
+    int randomHeight = uniformDistributionHeight(this->randomNumberGenerator);
+    int randomWidth = uniformDistributionWidth(this->randomNumberGenerator);
+
+    return std::make_pair(randomWidth, randomHeight);
+}
