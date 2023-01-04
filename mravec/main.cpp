@@ -1,4 +1,5 @@
 #include <iostream>
+#include <unistd.h>
 #include "plocha/pole/Pole.h"
 #include "svet/Svet.h"
 #include "file/upload/FileUpload.h"
@@ -32,28 +33,10 @@ int main()
     ants->push_back(antInverzny4);
 
     Svet* svet = new Svet(pole, *ants);
-
+    printf("Pre pauzu simulacie stlacte p.\n");
+    sleep(5);
     svet->generateRandomColors();
     svet->printSvet();
-//    std::cout << std::endl;
-//    for (int i = 0; i < 10; ++i) {
-//        svet->shiftAllAnts();
-//        printf("Before killing: %d\n", svet->getNumberOfAnts());
-//        svet->killAllExcessiveAnts();
-//        printf("After killing: %d\n", svet->getNumberOfAnts());
-//        svet->printSvet();
-//        std::cout << std::endl;
-//    }
-//
-//    FileUpload fileUpload("skuska.txt");
-//    fileUpload.saveSvetIntoFile(*svet);
-//
-//    std::cout << std::endl << std::endl;
-//
-//    FileDownload fileDownload;
-//    auto* downloadedSvet = fileDownload.createSvetFromFile("skuska.txt");
-//
-//    downloadedSvet->printSvet();
 
     Simulacia simulation(10, svet);
     simulation.simulation();

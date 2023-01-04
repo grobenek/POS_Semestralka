@@ -16,6 +16,10 @@ void Simulacia::simulationRun() {
         if (this->isStopped) {
             // [this] - object is used in lambda function
             this->cond_variable_control.wait(lock, [this]{ return !isStopped; });
+
+            if (this->isExit) {
+                break;
+            }
         }
         this->mutex.unlock();
 
@@ -27,18 +31,23 @@ void Simulacia::simulationRun() {
 }
 
 void Simulacia::simulationControl() {
-    while (true) {
+    while (!this->isExit) {
         std::string a;
-        std::cout << "Zadaj prikaz: ";
         std::cin >> a;
 
-        if (a == "s") {
+        if (a == "p") {
             this->mutex.lock();
             this->isStopped = true;
             this->mutex.unlock();
-        } if (a == "start") {
+        } else if (a == "start") {
             this->mutex.lock();
             this->isStopped = false;
+            this->cond_variable_control.notify_one();
+            this->mutex.unlock();
+        } else if (a == "exit") {
+            this->mutex.lock();
+            this->isStopped = false;
+            this->isExit = true;
             this->cond_variable_control.notify_one();
             this->mutex.unlock();
         }
@@ -53,4 +62,4 @@ void Simulacia::simulation() {
     simulationControlThread.join();
 }
 
-Simulacia::Simulacia(int numberOfSteps, Svet* svet) : numberOfSteps(numberOfSteps), svet(svet), isStopped(false) {}
+Simulacia::Simulacia(int numberOfSteps, Svet* svet) : numberOfSteps(numberOfSteps), svet(svet), isStopped(false), isExit(false) {}
