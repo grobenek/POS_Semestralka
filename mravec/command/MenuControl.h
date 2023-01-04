@@ -8,7 +8,11 @@
 
 class MenuControl
 {
-
+public:
+    void static displayMainMenu();
+    void static displayConfigureSimulation();
+    void static displaySaveSimulation();
+    void static displayLoadSimulation();
 };
 
 
