@@ -21,8 +21,8 @@ public:
         {
             auto randomPositions = pole->generatePositionForAnt();
 
-            ant->setXPos(std::get<0>(randomPositions));
-            ant->setYPos(std::get<1>(randomPositions));
+            ant->setRowPos(std::get<0>(randomPositions));
+            ant->setColumnPos(std::get<1>(randomPositions));
             ant->setDirection(static_cast<Smer>(std::get<2>(randomPositions)));
 
             auto* copy = ant->makeCopy();

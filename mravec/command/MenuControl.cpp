@@ -162,8 +162,8 @@ void MenuControl::changePositionOfAnt(Svet* svet)
     x = MenuControl::readInput(1, svet->getWidth(), "X coordinate of new Policko for ant: ");
     y = MenuControl::readInput(1, svet->getHeight(), "Y coordinate of new Policko for ant: ");
 
-    ant->setXPos(x);
-    ant->setYPos(y);
+    ant->setRowPos(x);
+    ant->setColumnPos(y);
 
     svet->getPolicko(x, y)->addAnt(ant);
 
@@ -219,7 +219,7 @@ void MenuControl::saveSvetLocaly(Svet* svet)
         std::cout << "Enter file name you want to save Svet to: ";
         std::getline(std::cin, input);
 
-        if (std::regex_match(input, std::regex("[a-zA-Z0-9_ ]*\\.txt[a-zA-Z0-9_ ]*|[a-zA-Z0-9_]+")))
+        if (std::regex_match(input, std::regex("^[a-zA-Z0-9_]*(\\.txt)?$")))
         {
             break;
         }
@@ -253,7 +253,7 @@ Svet* MenuControl::loadSvetLocaly(Svet* svet)
         std::cout << "Enter file name you want to load Svet from: ";
         std::getline(std::cin, input);
 
-        if (std::regex_match(input, std::regex("[a-zA-Z0-9_ ]*\\.txt[a-zA-Z0-9_ ]*|[a-zA-Z0-9_]+")))
+        if (std::regex_match(input, std::regex("^[a-zA-Z0-9_]*(\\.txt)?$")))
         {
             break;
         }
@@ -286,7 +286,7 @@ Svet* MenuControl::runSimulation(Svet* svet)
     if (svet == nullptr)
     {
         std::cout << "Svet is not created!" << std::endl << "Creating one now" << std::endl;
-        svet = createSvet();
+        svet = createSvet(nullptr);
     }
 
     int input = getNumberOfSteps();
@@ -317,8 +317,14 @@ int MenuControl::getNumberOfSteps()
     return std::stoi(input);
 }
 
-Svet* MenuControl::createSvet()
+Svet* MenuControl::createSvet(Svet* svet)
 {
+    if (svet != nullptr)
+    {
+        std::cout << "Deleting your current svet!" << std::endl;
+        delete svet;
+    }
+
     int width = readInput(1, 100000, "Width of Svet (1-100000): ");
     int height = readInput(1, 100000, "Height of Svet (1-100000): ");
 
@@ -332,7 +338,6 @@ Svet* MenuControl::createSvet()
     {
         int input = readInput(1, 2, "Type of ant:\n1. Priamy\n2. Inverzny");
 
-        int x, y, direction;
         mravec::Mravec* ant;
         switch (input)
         {

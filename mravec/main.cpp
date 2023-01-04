@@ -57,7 +57,7 @@ int main()
                 MenuControl::printSvet(nullptr);
                 break;
             case 6:
-                svet = MenuControl::createSvet();
+                svet = MenuControl::createSvet(nullptr);
                 break;
             case 0:
                 delete svet;

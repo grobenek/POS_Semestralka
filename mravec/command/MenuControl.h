@@ -32,7 +32,7 @@ public:
 
     static Svet* runSimulation(Svet* svet);
 
-    static Svet* createSvet();
+    static Svet* createSvet(Svet* svet);
 
     static int getNumberOfSteps();
 
