@@ -2,6 +2,7 @@
 // Created by Peter Szathmáry on 27/12/2022.
 //
 
+#include <iostream>
 #include "Svet.h"
 
 void Svet::printSvet()
@@ -127,7 +128,48 @@ void Svet::killAllExcessiveAnts() {
 }
 
 void Svet::tick() {
+    std::cout << std::endl;
     this->shiftAllAnts();
     this->killAllExcessiveAnts();
     this->printSvet();
+}
+
+std::string Svet::getColorOfPolicko(int x, int y)
+{
+    auto color = this->pole->getPolicko(x, y)->getColor();
+
+    switch (color)
+    {
+        case 0:
+            return "white";
+        case 1:
+            return "black";
+        default:
+            return "Undefined color!";
+    }
+}
+
+void Svet::addAnt(mravec::Mravec* ant)
+{
+    int x = ant->getRowPos();
+    int y = ant->getColumnPos();
+
+    this->pole->getPolicko(x, y)->addAnt(ant);
+}
+
+void Svet::deleteAllAnts()
+{
+    for (int i = 0; i < this->getWidth(); ++i)
+    {
+        for (int j = 0; j < this->getHeight(); ++j)
+        {
+            auto policko = this->pole->getPolicko(i, j);
+            policko->removeAnts();
+        }
+    }
+}
+
+Policko* Svet::getPolicko(int x, int y)
+{
+    return this->pole->getPolicko(x, y);
 }

@@ -12,16 +12,16 @@ namespace mravec {
         return row;
     }
 
-    void Mravec::setXPos(int xPos) {
-        Mravec::row = xPos;
+    void Mravec::setRowPos(int rowPos) {
+        Mravec::row = rowPos;
     }
 
     int Mravec::getColumnPos() const {
         return column;
     }
 
-    void Mravec::setYPos(int yPos) {
-        Mravec::column = yPos;
+    void Mravec::setColumnPos(int columnPos) {
+        Mravec::column = columnPos;
     }
 
     Smer Mravec::getDirection() const {

@@ -21,8 +21,8 @@ public:
         {
             auto randomPositions = pole->generatePositionForAnt();
 
-            ant->setXPos(std::get<0>(randomPositions));
-            ant->setYPos(std::get<1>(randomPositions));
+            ant->setRowPos(std::get<0>(randomPositions));
+            ant->setColumnPos(std::get<1>(randomPositions));
             ant->setDirection(static_cast<Smer>(std::get<2>(randomPositions)));
 
             auto* copy = ant->makeCopy();
@@ -43,6 +43,8 @@ public:
     void printSvet();
 
     void changeColorOfPolicko(int x, int y);
+
+    std::string getColorOfPolicko(int x, int y);
 
     void generateRandomColorsOfPole();
 
@@ -67,6 +69,12 @@ public:
     std::string getStringRepresentationOfColors();
 
     void tick();
+
+    void addAnt(mravec::Mravec* ant);
+
+    void deleteAllAnts();
+
+    Policko* getPolicko(int x, int y);
 };
 
 

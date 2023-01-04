@@ -24,7 +24,7 @@ public:
 
     void simulationRun();
     void simulationControl();
-    void simulation();
+    void simulate();
 };
 
 

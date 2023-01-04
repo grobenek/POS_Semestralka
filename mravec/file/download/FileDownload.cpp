@@ -123,7 +123,7 @@ Svet* FileDownload::createSvetFromFile(const std::string& fileName)
     {
         for (int j = 0; j < pole->getHeight(); ++j)
         {
-            if (line.at(counter) == 'W')
+            if (line.at(counter) == 'B')
             {
                 pole->changeColorOfPolicko(i, j);
             }

@@ -18,11 +18,11 @@ namespace mravec {
 
         int getRowPos() const;
 
-        void setXPos(int xPos);
+        void setRowPos(int rowPos);
 
         int getColumnPos() const;
 
-        void setYPos(int yPos);
+        void setColumnPos(int columnPos);
 
         bool isMovedThisRound() const;
 
