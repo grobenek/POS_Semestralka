@@ -5,6 +5,7 @@
 #include <iostream>
 #include <chrono>
 #include <sstream>
+#include <tuple>
 #include "Pole.h"
 
 Pole::Pole(int pWidth, int pHeight) : width(pWidth), height(pHeight)

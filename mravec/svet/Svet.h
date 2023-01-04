@@ -5,6 +5,7 @@
 #ifndef MRAVEC_SVET_H
 #define MRAVEC_SVET_H
 
+#include <tuple>
 #include "../plocha/pole/Pole.h"
 #include "../mravec/Mravec.h"
 

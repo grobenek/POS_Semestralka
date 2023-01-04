@@ -29,12 +29,17 @@ void Simulacia::simulationRun() {
         this->mutex.unlock();
         std::this_thread::sleep_for(std::chrono::seconds(1));
     }
+
+    std::cout << "Simulation ended. Press 'enter' to continue." << std::endl;
+    this->mutex.lock();
+    this->isExit = true;
+    this->mutex.unlock();
 }
 
 void Simulacia::simulationControl() {
     while (!this->isExit) {
         std::string a;
-        std::cin >> a;
+        getline(std::cin, a);
 
         if (a == "p") {
             this->mutex.lock();
