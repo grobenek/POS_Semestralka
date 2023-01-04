@@ -54,10 +54,10 @@ int main()
                 svet = MenuControl::loadSvetLocaly(svet);
                 break;
             case 5:
-                MenuControl::printSvet(nullptr);
+                MenuControl::printSvet(svet);
                 break;
             case 6:
-                svet = MenuControl::createSvet(nullptr);
+                svet = MenuControl::createSvet(svet);
                 break;
             case 0:
                 delete svet;
