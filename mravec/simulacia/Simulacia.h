@@ -13,6 +13,7 @@ class Simulacia {
 private:
     Svet* svet;
     bool isStopped;
+    bool isExit;
     std::mutex mutex;
     std::condition_variable cond_variable_control;
     std::condition_variable cond_variable_run;
