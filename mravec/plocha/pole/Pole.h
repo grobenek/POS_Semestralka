@@ -27,6 +27,8 @@ public:
 
     void generateRandomColors();
 
+    std::tuple<int, int , int> generatePositionForAnt();
+
     std::string getStringRepresentationOfColors() const;
 
     int getWidth() const;

@@ -19,9 +19,9 @@ void Svet::generateRandomColorsOfPole()
     this->pole->generateRandomColors();
 }
 
-void Svet::generatePositionsForAnts()
+std::tuple<int, int, int> Svet::generatePositionsForAnt()
 {
-
+    this->pole->generatePositionForAnt();
 }
 
 void Svet::generateRandomColors()

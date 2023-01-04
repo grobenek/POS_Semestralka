@@ -14,7 +14,7 @@ namespace mravec {
         bool movedThisRound;
 
     public:
-        Mravec(int xPos, int yPos, Smer direction);
+        explicit Mravec(int xPos=0, int yPos=0, Smer direction=Smer::NORTH);
 
         int getRowPos() const;
 
