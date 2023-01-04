@@ -15,6 +15,7 @@ void Simulacia::simulationRun() {
     for (int i = 0; i < this->numberOfSteps; ++i) {
         if (this->isStopped) {
             // [this] - object is used in lambda function
+            std::cout << "Paused!" << std::endl << "Type 'start' to continue!" << std::endl << "Type 'exit' to exit!" << std::endl;
             this->cond_variable_control.wait(lock, [this]{ return !isStopped; });
 
             if (this->isExit) {

@@ -14,14 +14,14 @@ int main()
 
     auto* ants = new std::vector<mravec::Mravec *>;
 
-    auto* antPriamy = new mravec::MravecPriamy(1, 2, WEST);
-    auto* antPriamy2 = new mravec::MravecPriamy(4, 6, EAST);
-    auto* antPriamy3 = new mravec::MravecPriamy(9, 9, NORTH);
-    auto* antPriamy4 = new mravec::MravecPriamy(0, 0, SOUTH);
-    auto* antInverzny = new mravec::MravecInverzny(2, 1, NORTH);
-    auto* antInverzny2 = new mravec::MravecInverzny(2, 1, WEST);
-    auto* antInverzny3 = new mravec::MravecInverzny(4, 3, SOUTH);
-    auto* antInverzny4 = new mravec::MravecInverzny(5, 9, EAST);
+    auto* antPriamy = new mravec::MravecPriamy();
+    auto* antPriamy2 = new mravec::MravecPriamy();
+    auto* antPriamy3 = new mravec::MravecPriamy();
+    auto* antPriamy4 = new mravec::MravecPriamy();
+    auto* antInverzny = new mravec::MravecInverzny();
+    auto* antInverzny2 = new mravec::MravecInverzny();
+    auto* antInverzny3 = new mravec::MravecInverzny();
+    auto* antInverzny4 = new mravec::MravecInverzny();
 
     ants->push_back(antPriamy);
     ants->push_back(antPriamy2);
