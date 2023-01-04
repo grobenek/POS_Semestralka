@@ -30,6 +30,7 @@ void Simulacia::simulationRun() {
         std::this_thread::sleep_for(std::chrono::seconds(1));
     }
 
+    this->mutex.unlock();
     std::cout << "Simulation ended. Press 'enter' to continue." << std::endl;
     this->mutex.lock();
     this->isExit = true;

@@ -44,6 +44,8 @@ public:
 
     void changeColorOfPolicko(int x, int y);
 
+    std::string getColorOfPolicko(int x, int y);
+
     void generateRandomColorsOfPole();
 
     std::tuple<int, int, int> generatePositionsForAnt();

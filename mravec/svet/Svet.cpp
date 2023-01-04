@@ -131,3 +131,18 @@ void Svet::tick() {
     this->killAllExcessiveAnts();
     this->printSvet();
 }
+
+std::string Svet::getColorOfPolicko(int x, int y)
+{
+    auto color = this->pole->getPolicko(x, y)->getColor();
+
+    switch (color)
+    {
+        case 0:
+            return "white";
+        case 1:
+            return "black";
+        default:
+            return "Undefined color!";
+    }
+}
