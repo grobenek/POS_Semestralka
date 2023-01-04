@@ -21,7 +21,7 @@ private:
 public:
     explicit Policko(TypPolicka pColor);
 
-    Policko() : color(BLACK), ants(){};
+    Policko() : color(WHITE), ants(){};
 
     virtual ~Policko();
 
