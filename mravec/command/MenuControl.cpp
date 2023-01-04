@@ -240,10 +240,7 @@ void MenuControl::saveSvetLocaly(Svet* svet)
 
 Svet* MenuControl::loadSvetLocaly(Svet* svet)
 {
-    if (svet != nullptr)
-    {
-        delete svet;
-    }
+    delete svet;
 
     std::string input;
     std::cin.ignore();
@@ -361,6 +358,12 @@ Svet* MenuControl::createSvet(Svet* svet)
     std::cout << "Svet has been sucesfully created with " << numberOfAnts << " ants, width " << svetToReturn->getWidth()
               << " and height " << svetToReturn->getHeight() << std::endl;
 
+    int choice = MenuControl::readInput(1, 2, "Do you want to randomly generate colors?\n1. Yes\n2. No\n");
+
+    if (choice == 1)
+    {
+        svetToReturn->generateRandomColors();
+    }
     return svetToReturn;
 }
 
