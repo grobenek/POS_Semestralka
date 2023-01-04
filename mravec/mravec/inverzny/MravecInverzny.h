@@ -7,7 +7,7 @@ namespace mravec {
     class MravecInverzny: public Mravec {
     public:
 
-        MravecInverzny(int xPos, int yPos, Smer direction);
+        explicit MravecInverzny(int xPos=0, int yPos=0, Smer direction=Smer::NORTH);
 
         void mravecLogic(Policko& policko, int maxX, int maxY) override;
 

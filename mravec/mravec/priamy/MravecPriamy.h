@@ -12,7 +12,7 @@ namespace mravec {
     class MravecPriamy: public Mravec {
     public:
 
-        MravecPriamy(int xPos, int yPos, Smer direction);
+        explicit MravecPriamy(int xPos=0, int yPos=0, Smer direction=Smer::NORTH);
 
         void mravecLogic(Policko &policko, int maxX, int maxY) override;
 
