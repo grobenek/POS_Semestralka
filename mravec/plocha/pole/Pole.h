@@ -27,7 +27,7 @@ public:
 
     void generateRandomColors();
 
-    std::pair<int, int> generatePositionForAnt();
+    std::tuple<int, int , int> generatePositionForAnt();
 
     std::string getStringRepresentationOfColors() const;
 

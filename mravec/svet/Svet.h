@@ -39,7 +39,7 @@ public:
 
     void generateRandomColorsOfPole();
 
-    void generatePositionsForAnts();
+    std::tuple<int, int, int> generatePositionsForAnt();
 
     void generateRandomColors();
 
