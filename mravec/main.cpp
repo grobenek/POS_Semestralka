@@ -33,13 +33,46 @@ int main()
     ants->push_back(antInverzny4);
 
     Svet* svet = new Svet(pole, *ants);
-    printf("Pre pauzu simulacie stlacte p.\n");
-    sleep(5);
-    svet->generateRandomColors();
-    svet->printSvet();
+    std::cout << "Press 'enter' to start the application." << std::endl;
+    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 
-    Simulacia simulation(10, svet);
-    simulation.simulation();
+    while (true) {
+        std::cout << "Menu:" << std::endl;
+        std::cout << "1. Start" << std::endl;
+        std::cout << "2. Change position of ants" << std::endl;
+        std::cout << "3. Change position of black" << std::endl;
+        std::cout << "4. Change width and height of field" << std::endl;
+        std::cout << "5. Change number of ants" << std::endl;
+        std::cout << "0. Exit" << std::endl;
+        std::cout << "Select choice: ";
+
+        char choice;
+        std::cin.clear();
+        std::cin >> choice;
+
+        if (choice == '1') {
+            std::cout << "Pre pauzu simulacie stlacte p." << std::endl;
+            sleep(3);
+            svet->generateRandomColors();
+            svet->printSvet();
+
+            Simulacia simulation(10, svet);
+            simulation.simulation();
+        } else if (choice == '2') {
+            // Change position of ants
+        } else if (choice == '3') {
+            // Change position of black
+        } else if (choice == '4') {
+            // Change width and height of field
+        } else if (choice == '5') {
+            // Change number of ants
+        } else if (choice == '0') {
+            break;
+        } else {
+            std::cout << "Invalid choice. Please try again." << std::endl;
+        }
+    }
+
     delete svet;
 
     system("leaks mravec");
