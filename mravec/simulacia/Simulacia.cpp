@@ -61,7 +61,7 @@ void Simulacia::simulationControl() {
     }
 }
 
-void Simulacia::simulation() {
+void Simulacia::simulate() {
     std::thread simulationRunThread(&Simulacia::simulationRun, this);
     std::thread simulationControlThread(&Simulacia::simulationControl, this);
 

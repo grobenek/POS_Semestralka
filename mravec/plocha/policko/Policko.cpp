@@ -68,7 +68,12 @@ int Policko::getNumberOfAnts()
 
 mravec::Mravec* Policko::getAnt(int index)
 {
-    return this->ants[index];
+    try {
+        return this->ants.at(index);
+    } catch (...)
+    {
+        return nullptr;
+    }
 }
 
 void Policko::killExcessiveAnts() {
@@ -87,4 +92,14 @@ void Policko::removeAnt(int index) {
 
 const std::vector<mravec::Mravec *> &Policko::getAnts() const {
     return ants;
+}
+
+void Policko::removeAnts()
+{
+    for (auto ant: this->ants)
+    {
+        delete ant;
+    }
+
+    this->ants.clear();
 }

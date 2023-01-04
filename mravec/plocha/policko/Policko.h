@@ -44,6 +44,8 @@ public:
     mravec::Mravec* getAnt(int index);
 
     void killExcessiveAnts();
+
+    void removeAnts();
 };
 
 #endif //MRAVEC_POLICKO_H

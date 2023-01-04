@@ -69,6 +69,12 @@ public:
     std::string getStringRepresentationOfColors();
 
     void tick();
+
+    void addAnt(mravec::Mravec* ant);
+
+    void deleteAllAnts();
+
+    Policko* getPolicko(int x, int y);
 };
 
 

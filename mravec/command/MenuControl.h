@@ -6,13 +6,37 @@
 #define MRAVEC_MENUCONTROL_H
 
 
+#include "../svet/Svet.h"
+
 class MenuControl
 {
 public:
-    void static displayMainMenu();
-    void static displayConfigureSimulation();
-    void static displaySaveSimulation();
-    void static displayLoadSimulation();
+    static std::string getMainMenuString();
+    static std::string getConfigureSimulationString();
+    static std::string displaySaveSimulation();
+    static std::string displayLoadSimulation();
+    static void startSimulation(Svet* svet, int numberOfSteps);
+    static void addAnt(Svet* svet);
+    static void generateColorsForSvet(Svet* svet);
+    static void deleteAllAnts(Svet* svet);
+    static void changeColorOfPolicko(Svet* svet);
+    static void saveSvetLocaly(Svet* svet);
+
+    static int readInput(int minRange, int maxRange, const std::string& stringToPrint);
+
+    static void changePositionOfAnt(Svet* svet);
+
+    static Svet* deleteSvet(Svet* svet);
+
+    static Svet* loadSvetLocaly(Svet* svet);
+
+    static Svet* runSimulation(Svet* svet);
+
+    static Svet* createSvet();
+
+    static int getNumberOfSteps();
+
+    static void printSvet(Svet* svet);
 };
 
 
