@@ -33,6 +33,8 @@ void Server::createServer() {
     // TODO this->maxClients netusim ci to su fakt maxClients
     listen(this->sockfd, this->maxClients);
     this->cli_len = sizeof(this->cli_addr);
+
+    // TODO joiny a close vymysliet + odoslana sprava, ale neprijata a nezobrazena
 }
 
 bool Server::clientConnect() {
@@ -43,11 +45,11 @@ bool Server::clientConnect() {
         return false;
     }
     std::cout << "Client connected with ID: " << this->numberOfConnectedClients << std::endl;
-    this->thread_clients[this->numberOfConnectedClients] = this->clients[this->numberOfConnectedClients]->createThread();
     this->clients[this->numberOfConnectedClients] = new Client(
                                                     this->numberOfConnectedClients,
                                                     this->newsockfds[this->numberOfConnectedClients],
                                                     this->thread_clients[this->numberOfConnectedClients]);
+    this->thread_clients[this->numberOfConnectedClients] = this->clients[this->numberOfConnectedClients]->createThread();
 
     this->thread_clients[this->numberOfConnectedClients]->join();
     this->numberOfConnectedClients++;
