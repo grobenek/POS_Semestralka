@@ -359,6 +359,8 @@ Svet* MenuControl::createSvet(Svet* svet)
 
     Svet* svetToReturn = new Svet(pole, *ants);
 
+    delete ants;
+
     std::cout << "Svet has been sucesfully created with " << numberOfAnts << " ants, width " << svetToReturn->getWidth()
               << " and height " << svetToReturn->getHeight() << std::endl;
 
