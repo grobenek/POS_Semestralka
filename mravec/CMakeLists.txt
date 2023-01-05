@@ -23,6 +23,6 @@ add_executable(mravec main.cpp
             file/download/FileDownload.h
             file/download/FileDownload.cpp
             simulacia/Simulacia.cpp
-            simulacia/Simulacia.h command/MenuControl.h command/MenuControl.cpp)
+            simulacia/Simulacia.h command/MenuControl.h command/MenuControl.cpp connections/server/Server.cpp connections/server/Server.h connections/client/Client.cpp connections/client/Client.h)
 
 target_link_libraries(mravec pthread)
