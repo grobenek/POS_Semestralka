@@ -3,6 +3,7 @@
 //
 
 #include <regex>
+#include <thread>
 #include "MenuControl.h"
 
 #include "iostream"
@@ -292,6 +293,8 @@ Svet* MenuControl::runSimulation(Svet* svet)
 
     int input = getNumberOfSteps();
     std::cout << "Simulation has started!" << std::endl;
+    std::cout << "For pause type 'p'!" << std::endl;
+    std::this_thread::sleep_for(std::chrono::seconds(3));
     Simulacia simulacia(input, svet);
     svet->printSvet();
     std::cout << std::endl;
