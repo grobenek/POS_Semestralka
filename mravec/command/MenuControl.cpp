@@ -3,6 +3,7 @@
 //
 
 #include <regex>
+#include <thread>
 #include "MenuControl.h"
 
 #include "iostream"
@@ -11,6 +12,10 @@
 #include "../mravec/inverzny/MravecInverzny.h"
 #include "../file/upload/FileUpload.h"
 #include "../file/download/FileDownload.h"
+
+#define MAX_DIMENSION_SIZE 1000
+
+#define MIN_DIMENSION_SIZE 3
 
 std::string MenuControl::getMainMenuString()
 {
@@ -148,8 +153,8 @@ void MenuControl::changePositionOfAnt(Svet* svet)
         return;
     }
 
-    int x = MenuControl::readInput(1, svet->getWidth(), "X coordinate of Policko with ant: ");
-    int y = MenuControl::readInput(1, svet->getHeight(), "Y coordinate of Policko with ant: ");
+    int x = MenuControl::readInput(0, svet->getWidth(), "X coordinate of Policko with ant: ");
+    int y = MenuControl::readInput(0, svet->getHeight(), "Y coordinate of Policko with ant: ");
 
     auto* ant = svet->getPolicko(x, y)->getAnt(0);
     if (ant == nullptr)
@@ -159,8 +164,8 @@ void MenuControl::changePositionOfAnt(Svet* svet)
     }
     svet->getPolicko(x, y)->removeAnt(0);
 
-    x = MenuControl::readInput(1, svet->getWidth(), "X coordinate of new Policko for ant: ");
-    y = MenuControl::readInput(1, svet->getHeight(), "Y coordinate of new Policko for ant: ");
+    x = MenuControl::readInput(0, svet->getWidth(), "X coordinate of new Policko for ant: ");
+    y = MenuControl::readInput(0, svet->getHeight(), "Y coordinate of new Policko for ant: ");
 
     ant->setRowPos(x);
     ant->setColumnPos(y);
@@ -288,6 +293,8 @@ Svet* MenuControl::runSimulation(Svet* svet)
 
     int input = getNumberOfSteps();
     std::cout << "Simulation has started!" << std::endl;
+    std::cout << "For pause type 'p'!" << std::endl;
+    std::this_thread::sleep_for(std::chrono::seconds(3));
     Simulacia simulacia(input, svet);
     svet->printSvet();
     std::cout << std::endl;
@@ -304,12 +311,12 @@ int MenuControl::getNumberOfSteps()
         std::cout << "Enter number of steps in simulation: ";
         std::getline(std::cin, input);
 
-        if (std::regex_match(input, std::regex("\\d+")))
+        if (std::regex_match(input, std::regex("\\d+")) && std::stoi(input) > 0)
         {
             break;
         }
 
-        std::cout << "Input must be positive whole number. Try again!" << std::endl;
+        std::cout << "Input must be positive whole number greater than 0. Try again!" << std::endl;
     }
     return std::stoi(input);
 }
@@ -322,12 +329,12 @@ Svet* MenuControl::createSvet(Svet* svet)
         delete svet;
     }
 
-    int width = readInput(1, 100000, "Width of Svet (1-100000): ");
-    int height = readInput(1, 100000, "Height of Svet (1-100000): ");
+    int width = readInput(MIN_DIMENSION_SIZE, MAX_DIMENSION_SIZE, "Width of Svet (3-1000): ");
+    int height = readInput(MIN_DIMENSION_SIZE, MAX_DIMENSION_SIZE, "Height of Svet (3-1000): ");
 
     Pole* pole = new Pole(width, height);
 
-    int numberOfAnts = readInput(1, 100000, "Number of ants (1-100000): ");
+    int numberOfAnts = readInput(1, MAX_DIMENSION_SIZE, "Number of ants (1-1000)");
 
     auto* ants = new std::vector<mravec::Mravec*>();
 
@@ -354,6 +361,8 @@ Svet* MenuControl::createSvet(Svet* svet)
     }
 
     Svet* svetToReturn = new Svet(pole, *ants);
+
+    delete ants;
 
     std::cout << "Svet has been sucesfully created with " << numberOfAnts << " ants, width " << svetToReturn->getWidth()
               << " and height " << svetToReturn->getHeight() << std::endl;
