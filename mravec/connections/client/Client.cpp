@@ -3,16 +3,30 @@
 #include <cstring>
 #include <unistd.h>
 #include "Client.h"
-#include <thread>
 
 void Client::clientRun()
 {
     std::cout << "Client: my main method is running" << std::endl;
 
+    std::thread clientThread(&Client::sendTestConnectionMesssage, this);
+
     //TODO Toto je metoda kde klient posliela a prijima spravy
 
     while (true)
     {
+        pthread_mutex_lock(&this->mutex);
+        if (this->connectionLost)
+        {
+            pthread_mutex_unlock(&this->mutex);
+            break;
+        }
+        pthread_mutex_unlock(&this->mutex);
+        if (!clientThread.joinable())
+        {
+            std::cout << "Connection to server lost!" << std::endl;
+            break;
+        }
+
         std::string message;
         std::cin >> message;
         send(message);
@@ -25,6 +39,11 @@ void Client::clientRun()
         }
     }
 
+    pthread_mutex_lock(&this->mutex);
+    this->connectionLost = true;
+    pthread_mutex_unlock(&this->mutex);
+
+    clientThread.join();
     std::cout << "Client #" << this->id << " is disconnecting" << std::endl;
 }
 
@@ -36,6 +55,11 @@ std::string Client::readMessageFromServer()
     {
         perror("Error reading from socket");
         exit(4);
+    }
+    if (n == 0)
+    {
+        std::cerr << "Connection to server lost" << std::endl;
+        throw std::runtime_error("Connection to server lost!");
     }
     std::string bufferInString = buffer;
     return bufferInString;
@@ -87,6 +111,33 @@ void Client::send(const std::string& message)
     if (this->n < 0)
     {
         perror("Error writing to socket");
+    }
+}
+
+void Client::sendTestConnectionMesssage()
+{
+    while (true)
+    {
+        pthread_mutex_lock(&this->mutex);
+        if (this->connectionLost)
+        {
+            pthread_mutex_unlock(&this->mutex);
+            break;
+        }
+        pthread_mutex_unlock(&this->mutex);
+
+        this->send("beep");
+        try
+        {
+            this->readMessageFromServer();
+        } catch (std::runtime_error& error)
+        {
+            pthread_mutex_lock(&this->mutex);
+            this->connectionLost = true;
+            pthread_mutex_unlock(&this->mutex);
+            break;
+        }
+        std::this_thread::sleep_for(std::chrono::seconds(1));
     }
 }
 

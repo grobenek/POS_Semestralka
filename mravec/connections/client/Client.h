@@ -3,6 +3,8 @@
 
 #include <netdb.h>
 #include <cstring>
+#include <thread>
+#include <chrono>
 #include <unistd.h>
 
 class Client
@@ -14,6 +16,9 @@ private:
     char buffer[256]{};
     int n{};
     int id{};
+    bool connectionLost = false;
+
+    pthread_mutex_t mutex;
 
 
 public:
@@ -23,6 +28,8 @@ public:
     Client();
 
     void clientRun();
+
+    void sendTestConnectionMesssage();
 
     bool createConnection(int port, const std::string& ip);
 
