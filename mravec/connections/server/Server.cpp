@@ -35,7 +35,6 @@ void Server::createServer()
 
 void Server::serverRun()
 {
-    // Continuously listen for incoming client connections, create a new Client object for each one, and create a new thread to handle the client's communication with the server.
     while (true)
     {
         if (this->clients.size() >= this->maxClients)
@@ -43,7 +42,7 @@ void Server::serverRun()
             continue;
         }
         this->acceptClient();
-        std::thread clientThread(&Server::communicationWithClientThreadFunction, this, this->clients.size(), newsockfd);
+        std::thread clientThread(&Server::communicationWithClientThreadFunction, this, this->lastHighestId, newsockfd);
         clientThread.detach();
     }
 }
@@ -56,20 +55,21 @@ void Server::acceptClient()
         perror("Error accepting client connection");
         exit(3);
     }
-
-//    this->clients.insert(new Client(this->newsockfd));
-    this->clients.insert(std::make_pair(this->clients.size() + 1, new Client(this->newsockfd)));
+    this->lastHighestId++;
+    this->clients.insert(std::make_pair(this->lastHighestId, new Client(this->newsockfd)));
 }
 
 void Server::communicationWithClientThreadFunction(int clientId, int pSockfd)
 {
     std::cout << "Communicating with client #" << clientId << std::endl;
 
+    //TODO Toto je metoda kde SERVER posliela a prijima spravy s konkretnym klientom
+
     char buffer[256];
     while (true)
     {
         bzero(buffer, 256);
-        int n = read(this->newsockfd, buffer, 255);
+        int n = read(pSockfd, buffer, 255);
         if (n < 0)
         {
             perror("Error reading from socket");
@@ -77,18 +77,18 @@ void Server::communicationWithClientThreadFunction(int clientId, int pSockfd)
         }
         std::string bufferInString = buffer;
 
-        if (strcmp(bufferInString.c_str(), "") == 0)
-        {
-            break;
-        }
-
         if (strcmp(bufferInString.c_str(), "end") == 0)
         {
             send("Ending conversation!", pSockfd);
             std::cout << "Ending coversation with client #" << clientId << std::endl;
 
-            //TODO este vymazat z mapy pouzivatela
-
+            auto clientToRemoveIterator = clients.find(clientId);
+            if (clientToRemoveIterator != clients.end())
+            {
+                auto clientToRemove = clientToRemoveIterator->second;
+                delete clientToRemove;
+                clients.erase(clientToRemoveIterator);
+            }
             break;
         }
 
@@ -97,12 +97,13 @@ void Server::communicationWithClientThreadFunction(int clientId, int pSockfd)
     }
 }
 
-void Server::send(const std::string& message, int newsockfwd)
+void Server::send(const std::string& message, int pSockfd)
 {
-    // Send a message to the server.
-    bzero(this->buffer, 256);
-    strcpy(this->buffer, message.c_str());
-    int recievedBytes = write(newsockfwd, this->buffer, strlen(this->buffer));
+    // Send a message to the client
+    char buffer[256];
+    bzero(buffer, 256);
+    strcpy(buffer, message.c_str());
+    int recievedBytes = write(pSockfd, buffer, strlen(buffer));
     if (recievedBytes < 0)
     {
         perror("Error writing to socket");

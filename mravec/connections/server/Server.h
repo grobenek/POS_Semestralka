@@ -22,7 +22,7 @@ private:
     struct sockaddr_in serv_addr, cli_addr;
     int port;
     int maxClients;
-    char buffer[256];
+    int lastHighestId = 0;
     std::map<int, Client*> clients;
 public:
     Server(int maxClients, int port);
@@ -33,7 +33,7 @@ public:
 
     void serverRun();
 
-    void send(const std::string& message, int newsockfwd);
+    void send(const std::string& message, int pSockfd);
 };
 
 
