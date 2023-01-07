@@ -6,14 +6,12 @@
 #include <iostream>
 #include "Server.h"
 
-Server::Server(const int maxClients, int port) : maxClients(maxClients), port(port), numberOfConnectedClients(0) {
-    this->thread_clients = new std::thread*[this->maxClients];
-    this->clients = new Client*[this->maxClients];
-    this->newsockfds = new int[this->maxClients];
-}
+Server::Server(const int maxClients, int port) : maxClients(maxClients), port(port)
+{}
 
-void Server::createServer() {
-    bzero((char*)&serv_addr, sizeof(this->serv_addr));
+void Server::createServer()
+{
+    bzero((char*) &serv_addr, sizeof(this->serv_addr));
     this->serv_addr.sin_family = AF_INET;
     this->serv_addr.sin_addr.s_addr = INADDR_ANY;
     this->serv_addr.sin_port = this->port;
@@ -25,44 +23,88 @@ void Server::createServer() {
         exit(1);
     }
 
-    if (bind(this->sockfd, (struct sockaddr*)&serv_addr, sizeof(this->serv_addr)) < 0)
+    if (bind(this->sockfd, (struct sockaddr*) &serv_addr, sizeof(this->serv_addr)) < 0)
     {
         perror("Error binding socket address");
         exit(2);
     }
-    // TODO this->maxClients netusim ci to su fakt maxClients
+
     listen(this->sockfd, this->maxClients);
-    this->cli_len = sizeof(this->cli_addr);
-
-    // TODO joiny a close vymysliet + odoslana sprava, ale neprijata a nezobrazena
+    std::cout << "Server is ready and listening!" << std::endl;
 }
 
-bool Server::clientConnect() {
-    this->newsockfds[this->numberOfConnectedClients] = accept(sockfd, (struct sockaddr*)&cli_addr, &cli_len);
-    if (this->newsockfds[this->numberOfConnectedClients] < 0)
+void Server::serverRun()
+{
+    // Continuously listen for incoming client connections, create a new Client object for each one, and create a new thread to handle the client's communication with the server.
+    while (true)
     {
-        perror("ERROR on accept");
-        return false;
+        if (this->clients.size() >= this->maxClients)
+        {
+            continue;
+        }
+        this->acceptClient();
+        std::thread clientThread(&Server::communicationWithClientThreadFunction, this, this->clients.size(), newsockfd);
+        clientThread.detach();
     }
-    std::cout << "Client connected with ID: " << this->numberOfConnectedClients << std::endl;
-    this->clients[this->numberOfConnectedClients] = new Client(
-                                                    this->numberOfConnectedClients,
-                                                    this->newsockfds[this->numberOfConnectedClients],
-                                                    this->thread_clients[this->numberOfConnectedClients]);
-    this->thread_clients[this->numberOfConnectedClients] = this->clients[this->numberOfConnectedClients]->createThread();
-
-    this->thread_clients[this->numberOfConnectedClients]->join();
-    this->numberOfConnectedClients++;
-    return true;
 }
 
-Server::~Server() {
-    for (int i = 0; i < this->maxClients; ++i) {
-        delete this->clients[i];
-        delete this->thread_clients[i];
+void Server::acceptClient()
+{
+    this->newsockfd = accept(this->sockfd, (struct sockaddr*) &cli_addr, &cli_len);
+    if (this->newsockfd < 0)
+    {
+        perror("Error accepting client connection");
+        exit(3);
     }
 
-    delete this->clients;
-    delete this->thread_clients;
-    delete this->newsockfds;
+//    this->clients.insert(new Client(this->newsockfd));
+    this->clients.insert(std::make_pair(this->clients.size() + 1, new Client(this->newsockfd)));
+}
+
+void Server::communicationWithClientThreadFunction(int clientId, int pSockfd)
+{
+    std::cout << "Communicating with client #" << clientId << std::endl;
+
+    char buffer[256];
+    while (true)
+    {
+        bzero(buffer, 256);
+        int n = read(this->newsockfd, buffer, 255);
+        if (n < 0)
+        {
+            perror("Error reading from socket");
+            exit(4);
+        }
+        std::string bufferInString = buffer;
+
+        if (strcmp(bufferInString.c_str(), "") == 0)
+        {
+            break;
+        }
+
+        if (strcmp(bufferInString.c_str(), "end") == 0)
+        {
+            send("Ending conversation!", pSockfd);
+            std::cout << "Ending coversation with client #" << clientId << std::endl;
+
+            //TODO este vymazat z mapy pouzivatela
+
+            break;
+        }
+
+        std::cout << "Message from client #" << clientId << " : " << bufferInString << std::endl;
+        send("I've got your message!", pSockfd);
+    }
+}
+
+void Server::send(const std::string& message, int newsockfwd)
+{
+    // Send a message to the server.
+    bzero(this->buffer, 256);
+    strcpy(this->buffer, message.c_str());
+    int recievedBytes = write(newsockfwd, this->buffer, strlen(this->buffer));
+    if (recievedBytes < 0)
+    {
+        perror("Error writing to socket");
+    }
 }

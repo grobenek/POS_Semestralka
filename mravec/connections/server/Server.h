@@ -9,31 +9,31 @@
 #include <thread>
 #include <mutex>
 #include <netinet/in.h>
-#include <vector>
+#include <map>
 #include "../client/Client.h"
 
-class Server {
+class Server
+{
 private:
-    std::mutex mutex;
-    int sockfd;
+    void communicationWithClientThreadFunction(int clientId, int pSockfd);
+
+    int sockfd, newsockfd;
     socklen_t cli_len;
     struct sockaddr_in serv_addr, cli_addr;
-    std::thread thread_server;
-    std::thread** thread_clients;
-    Client** clients;
-    int* newsockfds;
-    int numberOfConnectedClients;
-
-    const int maxClients;
-    const int port;
+    int port;
+    int maxClients;
+    char buffer[256];
+    std::map<int, Client*> clients;
 public:
     Server(int maxClients, int port);
 
-    virtual ~Server();
-
     void createServer();
 
-    bool clientConnect();
+    void acceptClient();
+
+    void serverRun();
+
+    void send(const std::string& message, int newsockfwd);
 };
 
 
