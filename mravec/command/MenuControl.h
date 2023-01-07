@@ -15,7 +15,6 @@ public:
     static std::string getConfigureSimulationString();
     static std::string displaySaveSimulation();
     static std::string displayLoadSimulation();
-    static void startSimulation(Svet* svet, int numberOfSteps);
     static void addAnt(Svet* svet);
     static void generateColorsForSvet(Svet* svet);
     static void deleteAllAnts(Svet* svet);
@@ -28,7 +27,7 @@ public:
 
     static Svet* deleteSvet(Svet* svet);
 
-    static Svet* loadSvetLocaly(Svet* svet);
+    static Svet* loadSvetLocaly(Svet* svet, const std::string& loadDirectoryName);
 
     static Svet* runSimulation(Svet* svet);
 

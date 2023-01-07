@@ -4,6 +4,8 @@
 #include "mravec/inverzny/MravecInverzny.h"
 #include "command/MenuControl.h"
 
+#define LOAD_DIRECTORY_NAME "saves/"
+
 int main()
 {
     Svet* svet = nullptr;
@@ -51,7 +53,7 @@ int main()
                 break;
             case 4:
                 MenuControl::readInput(1, 2, MenuControl::displayLoadSimulation());
-                svet = MenuControl::loadSvetLocaly(svet);
+                svet = MenuControl::loadSvetLocaly(svet, LOAD_DIRECTORY_NAME);
                 break;
             case 5:
                 MenuControl::printSvet(svet);
@@ -61,6 +63,7 @@ int main()
                 break;
             case 0:
                 delete svet;
+                system("leaks mravec");
                 exit(0);
         }
     }

@@ -3,12 +3,19 @@
 //
 
 #include <iostream>
+#include <sys/stat.h>
 #include "FileUpload.h"
 #include "../../mravec/inverzny/MravecInverzny.h"
 
 FileUpload::FileUpload(const std::string& fileName)
 {
-    this->file = std::ofstream(fileName);
+    struct stat st = {0};
+
+    if (stat(this->directoryName, &st) == -1) {
+        mkdir(this->directoryName, 0700);
+    }
+
+    this->file = std::ofstream(this->directoryName+fileName);
 }
 
 void FileUpload::saveSvetIntoFile(Svet& svet)
