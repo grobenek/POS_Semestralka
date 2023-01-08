@@ -45,11 +45,8 @@ void Client::clientRun()
             std::cout << "Write file name: " << std::endl;
             std::cin >> message;
             send(message);
-            bzero(this->buffer, 256);
             this->readMessageFromServer();
-            bzero(this->buffer, 256); //TODO NEJDE
             this->readFileFromServer("skuska.txt");
-            bzero(this->buffer, 256);
             continue;
         }
 
@@ -140,6 +137,7 @@ std::string Client::readFileFromServer(const std::string& fileName)
         std::string response = bufferForFile;
         if (strcmp(response.c_str(), "eof") == 0)
         {
+            send("got it");
             break;
         }
         send("got it");
