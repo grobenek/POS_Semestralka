@@ -3,8 +3,7 @@
 //
 
 #ifndef MRAVEC_FILEUPLOAD_H
-#define MRAVEC_FILEUPLOAD_H
-
+#define MRAVEC_FILEUPLOAD_H"
 
 #include <cstdio>
 #include <fstream>
@@ -13,6 +12,7 @@
 class FileUpload
 {
 private:
+    const char* const directoryName = "saves/";
     std::ofstream file;
 
 public:

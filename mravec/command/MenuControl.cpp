@@ -4,6 +4,7 @@
 
 #include <regex>
 #include <thread>
+#include <dirent.h>
 #include "MenuControl.h"
 
 #include "iostream"
@@ -243,9 +244,23 @@ void MenuControl::saveSvetLocaly(Svet* svet)
     std::cout << "Svet has been sucesfully saved into file with name " << input << std::endl;
 }
 
-Svet* MenuControl::loadSvetLocaly(Svet* svet)
+Svet* MenuControl::loadSvetLocaly(Svet* svet, const std::string& loadDirectoryName)
 {
     delete svet;
+
+    std::cout << "List of all save files:" << std::endl;
+    if (auto dir = opendir(loadDirectoryName.c_str()))
+    {
+        while (auto f = readdir(dir))
+        {
+            if (strcmp(f->d_name, ".") == 0 || strcmp(f->d_name, "..") == 0) {
+                continue;
+            }
+            printf("%s\n", f->d_name);
+        }
+        closedir(dir);
+    }
+
 
     std::string input;
     std::cin.ignore();
@@ -271,7 +286,7 @@ Svet* MenuControl::loadSvetLocaly(Svet* svet)
     FileDownload fileDownload;
     try
     {
-        svet = fileDownload.createSvetFromFile(input);
+        svet = fileDownload.createSvetFromFile(loadDirectoryName+ "/" +input);
 
         std::cout << "Svet has been succesfully loaded from file with name " << input << std::endl;
 
