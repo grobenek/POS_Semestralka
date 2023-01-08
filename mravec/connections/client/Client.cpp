@@ -8,7 +8,7 @@ void Client::clientRun()
 {
     std::cout << "Client: my main method is running" << std::endl;
 
-//    std::thread clientThread(&Client::sendTestConnectionMesssage, this);
+    std::thread clientThread(&Client::sendTestConnectionMesssage, this);
 
     //TODO Toto je metoda kde klient posliela a prijima spravy
 
@@ -21,11 +21,11 @@ void Client::clientRun()
             break;
         }
         pthread_mutex_unlock(&this->mutex);
-//        if (!clientThread.joinable())
-//        {
-//            std::cout << "Connection to server lost!" << std::endl;
-//            break;
-//        }
+        if (!clientThread.joinable())
+        {
+            std::cout << "Connection to server lost!" << std::endl;
+            break;
+        }
 
 
         std::string message;
@@ -44,7 +44,7 @@ void Client::clientRun()
     this->connectionLost = true;
     pthread_mutex_unlock(&this->mutex);
 
-//    clientThread.join();
+    clientThread.join();
     std::cout << "Client #" << this->id << " is disconnecting" << std::endl;
 }
 

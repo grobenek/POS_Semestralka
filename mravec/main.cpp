@@ -12,13 +12,13 @@ int main(int argc, char* argv[])
 {
     if (strcmp(argv[1], "server") == 0)
     {
-        Server server(10, 10126);
+        Server server(10, 10127);
         server.createServer();
         server.serverRun();
     } else if (strcmp(argv[1], "client") == 0)
     {
         Client client;
-        client.createConnection(10126, "localhost");
+        client.createConnection(10127, "localhost");
     }
 
 //    Svet* svet = nullptr;
