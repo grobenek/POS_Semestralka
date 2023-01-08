@@ -41,15 +41,28 @@ void Client::clientRun()
 
         if (strcmp(messageFromServer.c_str(), "download") == 0)
         {
+            message = "";
+            std::cout << "Write file name: " << std::endl;
+            std::cin >> message;
+            send(message);
+            bzero(this->buffer, 256);
+            this->readMessageFromServer();
+            bzero(this->buffer, 256); //TODO NEJDE
             this->readFileFromServer("skuska.txt");
+            bzero(this->buffer, 256);
             continue;
         }
-//        std::cout << "Server: " << messageFromServer << std::endl;
+
+        if (strcmp(messageFromServer.c_str(), "upload") == 0)
+        {
+            this->sendFileToServer("saves/skuska.txt");
+        }
+        std::cout << "Server: " << messageFromServer << std::endl;
     }
 
-    pthread_mutex_lock(&this->mutex);
-    this->connectionLost = true;
-    pthread_mutex_unlock(&this->mutex);
+//    pthread_mutex_lock(&this->mutex);
+//    this->connectionLost = true;
+//    pthread_mutex_unlock(&this->mutex);
 
 //    clientThread.join();
     std::cout << "Client #" << this->id << " is disconnecting" << std::endl;
@@ -211,6 +224,34 @@ void Client::sendTestConnectionMesssage()
         }
         std::this_thread::sleep_for(std::chrono::seconds(1));
     }
+}
+
+void Client::sendFileToServer(const std::string& fileName)
+{
+    // Open the file
+    std::cout << "Starting sending file to server" << std::endl;
+    std::ifstream fileStream(fileName);
+    if (!fileStream.is_open())
+    {
+        std::cerr << "Error opening file: " << fileName << std::endl;
+        return;
+    }
+
+    char bufferForFile[256];
+    bzero(bufferForFile, 256);
+
+    while (fileStream.getline(bufferForFile, 256))
+    {
+        std::string message = bufferForFile;
+        send(message);
+        bzero(bufferForFile, 256);
+        message = this->readMessageFromServer();
+    }
+
+    send("eof");
+
+    fileStream.close();
+    std::cout << "Finished sending file to server" << std::endl;
 }
 
 Client::Client()

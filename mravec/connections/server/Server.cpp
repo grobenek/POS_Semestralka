@@ -94,8 +94,16 @@ void Server::communicationWithClientThreadFunction(int clientId, int pSockfd)
         if (strcmp(bufferInString.c_str(), "download") == 0)
         {
             send("download", pSockfd);
-            this->sendTextFile("server/skuska.txt", pSockfd, clientId);
+            std::string fileName = this->readMessageFromClient(pSockfd);
+            send(fileName, pSockfd);
+            this->sendTextFile("server/"+fileName, pSockfd, clientId);
             continue;
+        }
+
+        if (strcmp(bufferInString.c_str(), "upload") == 0)
+        {
+            send("upload", pSockfd);
+            this->readFileFromClient("skuska.txt", clientId, pSockfd);
         }
 
         std::cout << "Message from client #" << clientId << " : " << bufferInString << std::endl;
@@ -138,7 +146,7 @@ void Server::SendListOfAllFilesToDownload(int clientId, int pSockfd)
 {
     std::cout << "User #" << clientId << " requested list of all files" << std::endl;
     send("List of all save files:\n", pSockfd);
-    if (auto dir = opendir("server_saves/"))
+    if (auto dir = opendir("server/"))
     {
         while (auto f = readdir(dir))
         {
@@ -179,7 +187,7 @@ void Server::sendTextFile(const std::string& fileName, int clientSocket, int cli
     char bufferForFile[256];
     bzero(bufferForFile, 256);
 
-    while (fileStream.getline(bufferForFile, 256)) //TODO POZOR
+    while (fileStream.getline(bufferForFile, 256))
     {
         std::string message = bufferForFile;
         send(message, clientSocket);
@@ -191,4 +199,48 @@ void Server::sendTextFile(const std::string& fileName, int clientSocket, int cli
 
     fileStream.close();
     std::cout << "Finished sending file to client#" << clientId << std::endl;
+}
+
+std::string Server::readFileFromClient(const std::string& fileName, int clientId, int clientSocket)
+{
+    // Open the file to write the contents to
+    std::ofstream fileStream("server/"+fileName);
+    if (!fileStream.is_open())
+    {
+        std::cerr << "Error opening file for writing" << std::endl;
+        return "";
+    }
+
+    // Read and save the file contents in chunks
+    const size_t chunkSize = 256;
+    char bufferForFile[chunkSize];
+    int n = read(clientSocket, bufferForFile, chunkSize - 1);
+    send("got it", clientSocket);
+    if (n < 0)
+    {
+        perror("Error reading from socket");
+        return "";
+    }
+    if (n == 0)
+    {
+        std::cerr << "Connection to client lost" << std::endl;
+        throw std::runtime_error("Connection to client lost!");
+    }
+    while (n > 0)
+    {
+        std::string message = bufferForFile;
+        fileStream << message << std::endl;
+        bzero(bufferForFile, chunkSize);
+        n = read(clientSocket, bufferForFile, chunkSize - 1);
+        std::string response = bufferForFile;
+        if (strcmp(response.c_str(), "eof") == 0)
+        {
+            break;
+        }
+        send("got it", clientSocket);
+    }
+
+    fileStream.close();
+    std::cout << "Finished reading file from client#" << clientId << std::endl;
+    return fileName;
 }

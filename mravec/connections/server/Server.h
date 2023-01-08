@@ -42,6 +42,8 @@ public:
     void sendTextFile(const std::string& fileName, int clientSocket, int clientId);
 
     std::string readMessageFromClient(int pSockfd);
+
+    std::string readFileFromClient(const std::string& fileName, int clientId, int clientSocket);
 };
 
 

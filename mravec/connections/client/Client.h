@@ -38,6 +38,8 @@ public:
     std::string readMessageFromServer();
 
     std::string readFileFromServer(const std::string& fileName);
+
+    void sendFileToServer(const std::string& fileName);
 };
 
 #endif // CLIENT_H
