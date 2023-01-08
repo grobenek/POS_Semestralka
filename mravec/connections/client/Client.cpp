@@ -44,13 +44,19 @@ void Client::clientRun()
             std::cin >> message;
             send(message);
             this->readMessageFromServer();
-            this->readFileFromServer("skuska.txt");
+            this->readFileFromServer(message);
             continue;
         }
 
         if (strcmp(messageFromServer.c_str(), "upload") == 0)
         {
-            this->sendFileToServer("saves/skuska.txt");
+            message = "";
+            std::cout << "Write file name: " << std::endl;
+            std::cin >> message;
+            send(message);
+            this->readMessageFromServer();
+            message = "saves/" + message;
+            this->sendFileToServer(message);
         }
         std::cout << "Server: " << messageFromServer << std::endl;
     }

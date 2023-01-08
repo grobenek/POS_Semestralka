@@ -99,7 +99,9 @@ void Server::communicationWithClientThreadFunction(int clientId, int pSockfd)
         if (strcmp(bufferInString.c_str(), "upload") == 0)
         {
             send("upload", pSockfd);
-            this->readFileFromClient("lokalne.txt", clientId, pSockfd);
+            std::string fileName = this->readMessageFromClient(pSockfd);
+            send(fileName, pSockfd);
+            this->readFileFromClient(fileName, clientId, pSockfd);
         }
 
         std::cout << "Message from client #" << clientId << " : " << bufferInString << std::endl;
