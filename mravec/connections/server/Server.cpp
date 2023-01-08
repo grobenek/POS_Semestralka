@@ -6,6 +6,7 @@
 #include <iostream>
 #include <dirent.h>
 #include <fstream>
+#include <sys/stat.h>
 #include "Server.h"
 
 Server::Server(const int maxClients, int port) : maxClients(maxClients), port(port)
@@ -70,16 +71,10 @@ void Server::communicationWithClientThreadFunction(int clientId, int pSockfd)
     {
         std::string bufferInString = this->readMessageFromClient(pSockfd);
 
-        if (strcmp(bufferInString.c_str(), "beep") == 0)
-        {
-            send("zijem", pSockfd);
-            continue;
-        }
-
         if (strcmp(bufferInString.c_str(), "printFilesToDownload") == 0)
         {
+            send("ls", pSockfd);
             SendListOfAllFilesToDownload(clientId, pSockfd);
-            continue;
         }
 
         if (strcmp(bufferInString.c_str(), "end") == 0)
@@ -104,7 +99,7 @@ void Server::communicationWithClientThreadFunction(int clientId, int pSockfd)
         if (strcmp(bufferInString.c_str(), "upload") == 0)
         {
             send("upload", pSockfd);
-            this->readFileFromClient("skuska.txt", clientId, pSockfd);
+            this->readFileFromClient("lokalne.txt", clientId, pSockfd);
         }
 
         std::cout << "Message from client #" << clientId << " : " << bufferInString << std::endl;
@@ -146,7 +141,6 @@ void Server::deleteClient(int clientId)
 void Server::SendListOfAllFilesToDownload(int clientId, int pSockfd)
 {
     std::cout << "User #" << clientId << " requested list of all files" << std::endl;
-    send("List of all save files:\n", pSockfd);
     if (auto dir = opendir("server/"))
     {
         while (auto f = readdir(dir))
@@ -158,6 +152,7 @@ void Server::SendListOfAllFilesToDownload(int clientId, int pSockfd)
             send(f->d_name, pSockfd);
         }
         closedir(dir);
+        send("endingFiles", pSockfd);
     }
 }
 
@@ -204,12 +199,14 @@ void Server::sendTextFile(const std::string& fileName, int clientSocket, int cli
 
 std::string Server::readFileFromClient(const std::string& fileName, int clientId, int clientSocket)
 {
+
     // Open the file to write the contents to
     std::ofstream fileStream("server/"+fileName);
     if (!fileStream.is_open())
     {
         std::cerr << "Error opening file for writing" << std::endl;
-        return "";
+        std::ofstream newFile("server/"+fileName);
+        fileStream = std::ofstream ("server/"+fileName);
     }
 
     // Read and save the file contents in chunks
@@ -244,4 +241,14 @@ std::string Server::readFileFromClient(const std::string& fileName, int clientId
     fileStream.close();
     std::cout << "Finished reading file from client#" << clientId << std::endl;
     return fileName;
+}
+
+Server::~Server()
+{
+    for (auto& iterable : this->clients)
+    {
+        delete iterable.second;
+    }
+
+    this->clients.clear();
 }
