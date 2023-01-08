@@ -169,33 +169,6 @@ void Client::send(const std::string& message)
     }
 }
 
-void Client::sendTestConnectionMesssage()
-{
-    while (true)
-    {
-        pthread_mutex_lock(&this->mutex);
-        if (this->connectionLost)
-        {
-            pthread_mutex_unlock(&this->mutex);
-            break;
-        }
-        pthread_mutex_unlock(&this->mutex);
-
-        this->send("beep");
-        try
-        {
-            this->readMessageFromServer();
-        } catch (std::runtime_error& error)
-        {
-            pthread_mutex_lock(&this->mutex);
-            this->connectionLost = true;
-            pthread_mutex_unlock(&this->mutex);
-            break;
-        }
-        std::this_thread::sleep_for(std::chrono::seconds(1));
-    }
-}
-
 void Client::sendFileToServer(const std::string& fileName)
 {
     // Open the file
