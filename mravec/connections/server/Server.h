@@ -34,6 +34,14 @@ public:
     void serverRun();
 
     void send(const std::string& message, int pSockfd);
+
+    void SendListOfAllFilesToDownload(int clientId, int pSockfd);
+
+    void deleteClient(int clientId);
+
+    void sendTextFile(const std::string& fileName, int clientSocket);
+
+    std::string readMessageFromClient(int pSockfd);
 };
 
 

@@ -4,6 +4,8 @@
 
 #include <cstring>
 #include <iostream>
+#include <dirent.h>
+#include <fstream>
 #include "Server.h"
 
 Server::Server(const int maxClients, int port) : maxClients(maxClients), port(port)
@@ -64,22 +66,20 @@ void Server::communicationWithClientThreadFunction(int clientId, int pSockfd)
     std::cout << "Communicating with client #" << clientId << std::endl;
 
     //TODO Toto je metoda kde SERVER posliela a prijima spravy s konkretnym klientom
-
-    char buffer[256];
     while (true)
     {
-        bzero(buffer, 256);
-        int n = read(pSockfd, buffer, 255);
-        if (n < 0)
-        {
-            perror("Error reading from socket");
-            exit(4);
-        }
-        std::string bufferInString = buffer;
+        std::string bufferInString = this->readMessageFromClient(pSockfd);
 
         if (strcmp(bufferInString.c_str(), "beep") == 0)
         {
-            send("", pSockfd);
+            send("zijem", pSockfd);
+            continue;
+        }
+
+        if (strcmp(bufferInString.c_str(), "printFilesToDownload") == 0)
+        {
+            SendListOfAllFilesToDownload(clientId, pSockfd);
+            continue;
         }
 
         if (strcmp(bufferInString.c_str(), "end") == 0)
@@ -87,18 +87,61 @@ void Server::communicationWithClientThreadFunction(int clientId, int pSockfd)
             send("Ending conversation!", pSockfd);
             std::cout << "Ending coversation with client #" << clientId << std::endl;
 
-            auto clientToRemoveIterator = clients.find(clientId);
-            if (clientToRemoveIterator != clients.end())
-            {
-                auto clientToRemove = clientToRemoveIterator->second;
-                delete clientToRemove;
-                clients.erase(clientToRemoveIterator);
-            }
+            deleteClient(clientId);
             break;
         }
 
         std::cout << "Message from client #" << clientId << " : " << bufferInString << std::endl;
         send("I've got your message!", pSockfd);
+    }
+    std::cout << "Ending communication with client#" << clientId << std::endl;
+}
+
+std::string Server::readMessageFromClient(int pSockfd)
+{
+    char buffer[256];
+    bzero(buffer, 256);
+    int n = read(pSockfd, buffer, 255);
+    if (n < 0)
+    {
+        perror("Error reading from socket");
+        exit(4);
+    }
+    if (n == 0)
+    {
+        std::cerr << "Connection to server lost" << std::endl;
+        throw std::runtime_error("Connection to server lost!");
+    }
+    std::string bufferInString = buffer;
+    return bufferInString;
+}
+
+void Server::deleteClient(int clientId)
+{
+    auto clientToRemoveIterator = clients.find(clientId);
+    if (clientToRemoveIterator != clients.end())
+    {
+        auto clientToRemove = clientToRemoveIterator->second;
+        delete clientToRemove;
+        clients.erase(clientToRemoveIterator);
+    }
+}
+
+void Server::SendListOfAllFilesToDownload(int clientId, int pSockfd)
+{
+    std::cout << "User #" << clientId << " requested list of all files" << std::endl;
+    send("List of all save files:\n", pSockfd);
+    if (auto dir = opendir("server_saves/"))
+    {
+        while (auto f = readdir(dir))
+        {
+            if (strcmp(f->d_name, ".") == 0 || strcmp(f->d_name, "..") == 0)
+            {
+                continue;
+            }
+            send(f->d_name, pSockfd);
+        }
+        closedir(dir);
     }
 }
 
@@ -112,5 +155,25 @@ void Server::send(const std::string& message, int pSockfd)
     if (recievedBytes < 0)
     {
         perror("Error writing to socket");
+    }
+}
+
+void Server::sendTextFile(const std::string& fileName, int clientSocket)
+{
+    // Open the file
+    std::ifstream fileStream(fileName, std::ios::binary);
+    if (!fileStream.is_open())
+    {
+        std::cerr << "Error opening file: " << fileName << std::endl;
+        return;
+    }
+
+    // Read and send the file contents in chunks
+    const size_t chunkSize = 256;
+    char buffer[chunkSize];
+    while (!fileStream.eof())
+    {
+        fileStream.read(buffer, chunkSize);
+        send(buffer, clientSocket);
     }
 }

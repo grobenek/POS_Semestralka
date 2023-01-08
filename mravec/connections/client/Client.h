@@ -36,6 +36,8 @@ public:
     void send(const std::string& message);
 
     std::string readMessageFromServer();
+
+    std::string readMessageFromClient(int pSockfd);
 };
 
 #endif // CLIENT_H
