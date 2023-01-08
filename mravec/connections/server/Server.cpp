@@ -77,6 +77,11 @@ void Server::communicationWithClientThreadFunction(int clientId, int pSockfd)
         }
         std::string bufferInString = buffer;
 
+        if (strcmp(bufferInString.c_str(), "beep") == 0)
+        {
+            send("", pSockfd);
+        }
+
         if (strcmp(bufferInString.c_str(), "end") == 0)
         {
             send("Ending conversation!", pSockfd);
