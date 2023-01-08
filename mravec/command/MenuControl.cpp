@@ -57,7 +57,7 @@ std::string MenuControl::displayLoadSimulation()
 {
     std::string menu = "Load simulation:\n"
                        "1. Load from this computer\n"
-                       "2. Save on remote server";
+                       "2. Load from remote server";
 
     return menu;
 }
