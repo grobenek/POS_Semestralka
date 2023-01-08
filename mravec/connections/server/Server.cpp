@@ -96,7 +96,8 @@ void Server::communicationWithClientThreadFunction(int clientId, int pSockfd)
             send("download", pSockfd);
             std::string fileName = this->readMessageFromClient(pSockfd);
             send(fileName, pSockfd);
-            this->sendTextFile("server/"+fileName, pSockfd, clientId);
+            fileName = "server/" + fileName;
+            this->sendTextFile(fileName, pSockfd, clientId);
             continue;
         }
 
