@@ -11,7 +11,9 @@
 int main(int argc, char* argv[])
 {
     if (strcmp(argv[1], "server") == 0) {
-        Server server(10, 10219);
+        int clients = MenuControl::readInput(1, 10, "Max clients: ");
+        int port = MenuControl::readInput(10000, 10500, "Port: ");
+        Server server(clients, port);
         server.createServer();
         server.serverRun();
     } else if (strcmp(argv[1], "client") == 0) {
