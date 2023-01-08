@@ -37,7 +37,7 @@ public:
 
     std::string readMessageFromServer();
 
-    std::string readMessageFromClient(int pSockfd);
+    std::string readFileFromServer(const std::string& fileName);
 };
 
 #endif // CLIENT_H

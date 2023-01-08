@@ -91,6 +91,13 @@ void Server::communicationWithClientThreadFunction(int clientId, int pSockfd)
             break;
         }
 
+        if (strcmp(bufferInString.c_str(), "download") == 0)
+        {
+            send("download", pSockfd);
+            this->sendTextFile("server/skuska.txt", pSockfd, clientId);
+            continue;
+        }
+
         std::cout << "Message from client #" << clientId << " : " << bufferInString << std::endl;
         send("I've got your message!", pSockfd);
     }
@@ -158,22 +165,30 @@ void Server::send(const std::string& message, int pSockfd)
     }
 }
 
-void Server::sendTextFile(const std::string& fileName, int clientSocket)
+void Server::sendTextFile(const std::string& fileName, int clientSocket, int clientId)
 {
     // Open the file
-    std::ifstream fileStream(fileName, std::ios::binary);
+    std::cout << "Starting sending file to client#" << clientId << std::endl;
+    std::ifstream fileStream(fileName);
     if (!fileStream.is_open())
     {
         std::cerr << "Error opening file: " << fileName << std::endl;
         return;
     }
 
-    // Read and send the file contents in chunks
-    const size_t chunkSize = 256;
-    char buffer[chunkSize];
-    while (!fileStream.eof())
+    char bufferForFile[256];
+    bzero(bufferForFile, 256);
+
+    while (fileStream.getline(bufferForFile, 256)) //TODO POZOR
     {
-        fileStream.read(buffer, chunkSize);
-        send(buffer, clientSocket);
+        std::string message = bufferForFile;
+        send(message, clientSocket);
+        bzero(bufferForFile, 256);
+        message = this->readMessageFromClient(clientSocket);
     }
+
+    send("eof", clientSocket);
+
+    fileStream.close();
+    std::cout << "Finished sending file to client#" << clientId << std::endl;
 }

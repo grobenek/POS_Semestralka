@@ -39,7 +39,7 @@ public:
 
     void deleteClient(int clientId);
 
-    void sendTextFile(const std::string& fileName, int clientSocket);
+    void sendTextFile(const std::string& fileName, int clientSocket, int clientId);
 
     std::string readMessageFromClient(int pSockfd);
 };
