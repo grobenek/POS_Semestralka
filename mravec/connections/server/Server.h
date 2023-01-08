@@ -44,6 +44,8 @@ public:
     std::string readMessageFromClient(int pSockfd);
 
     std::string readFileFromClient(const std::string& fileName, int clientId, int clientSocket);
+
+    ~Server();
 };
 
 
